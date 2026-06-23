@@ -1,0 +1,36 @@
+from __future__ import annotations
+from pathlib import Path
+import pandas as pd
+
+# {{ warning }}
+# ============================================================
+# 0. CONFIGURACIÓN GENERAL / CONSTANTES
+# ============================================================
+FILE_NAME = "your_file.csv"
+CSV_ENCODING = "utf-8-sig"   
+CSV_SEPARATOR = ";"
+
+SCRIPT_DIR = Path(__file__).parent
+INPUT_FILE = SCRIPT_DIR / FILE_NAME
+OUTPUT_FILE = INPUT_FILE.with_name(f"{INPUT_FILE.stem}_clean.csv")
+
+
+# ============================================================
+# 1. FUNCIONES PRINCIPALES
+# ============================================================
+def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
+    ### Your logic here
+    return df
+
+
+def main() -> None:
+    df = pd.read_excel(INPUT_FILE)
+    df = clean_dataframe(df)
+    df.to_csv(OUTPUT_FILE, index=False, sep=CSV_SEPARATOR, encoding=CSV_ENCODING)
+    print(f"✅ Archivo exportado correctamente en: {OUTPUT_FILE}")
+
+# ============================================================
+# 2. EJECUCIÓN DIRECTA
+# ============================================================
+if __name__ == "__main__":
+    main()
