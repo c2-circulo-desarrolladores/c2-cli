@@ -8,8 +8,11 @@ impl Deployable for Init {
     fn message(&self) -> &str {
         "Initialized project with .gitignore, justfile and .github/"
     }
-    fn commands(&self) -> Option<Vec<&'static str>> {
-        Some(vec!["uv", "init"])
+    fn deploy(&self) -> std::io::Result<()> {
+        self.execute_command("uv init")?;
+        self.import_files()?;
+        self.execute_command("uv add --dev isort autoflake ruff pre-commit")?;
+        Ok(())
     }
 }
 
