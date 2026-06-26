@@ -5,31 +5,28 @@ on:
     tags:
       - "v*"
 
+permissions:
+  contents: write
+
 jobs:
   build-windows:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/rust-toolchain@stable
 
-      - name: Build release
-        run: cargo build --release
+      - run: cargo build --release
 
-      - name: Prepare artifact
-        run: |
+      - run: |
           mkdir dist
           mkdir dist/c2
           copy target\release\c2.exe dist\c2\
 
-      - name: Zip release
-        run: |
+      - run: |
           powershell Compress-Archive -Path dist\c2\* -DestinationPath c2-windows-x86_64.zip
 
-      - name: Upload to GitHub Release
-        uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@v2
         with:
           files: c2-windows-x86_64.zip
