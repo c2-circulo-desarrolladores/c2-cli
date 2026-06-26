@@ -1,4 +1,4 @@
-# c2 - CLI
+# c2 - cli
 
 CLI para inicializar proyectos Python e importar módulos reutilizables.
 
@@ -16,10 +16,15 @@ c2 <COMMAND>
 
 ## Instalación
 
+### Desde Github
 ```bash
 cargo install --git https://github.com/c2-circulo-desarrolladores/c2-cli
 ```
 
+### Localmente
+```bash
+cargo install --path .
+```
 ## Uso
 
 ### Inicializar un proyecto
