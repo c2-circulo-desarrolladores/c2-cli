@@ -27,9 +27,6 @@ fn copy_dir(src: &Path, target: &Path) -> std::io::Result<()> {
 pub trait Deployable {
     fn name(&self) -> &str;
     fn message(&self) -> &str;
-    fn commands(&self) -> Option<Vec<&'static str>> {
-        None
-    }
 
     fn user_wd(&self) -> io::Result<PathBuf> {
         std::env::current_dir()
@@ -49,28 +46,27 @@ pub trait Deployable {
         }
     }
 
-    fn execute_additional_commands(&self) -> io::Result<()> {
-        match self.commands() {
-            Some(commands) => {
-                let (program, args) = commands
-                    .split_first()
-                    .ok_or(io::Error::new(io::ErrorKind::InvalidInput, "Lista vacía"))?;
-                Command::new(program).args(args).output()?;
-                println!("Ran {:?} commands", commands);
-                Ok(())
-            }
-            None => Ok(()),
-        }
+    fn execute_command(&self, command_str: &str) -> io::Result<()> {
+        let commands_vec: Vec<&str> = command_str.split(" ").collect();
+        let (program, args) = commands_vec
+            .split_first()
+            .ok_or(io::Error::new(io::ErrorKind::InvalidInput, "Lista vacía"))?;
+        Command::new(program).args(args).output()?;
+        println!("Ran {:?} command", command_str);
+        Ok(())
     }
 
-    fn deploy(&self) -> std::io::Result<()> {
+    fn import_files(&self) -> std::io::Result<()> {
         let src = self.folder_path()?;
         let target = self.user_wd()?;
 
-        self.execute_additional_commands()?;
         copy_dir(&src, &target)?;
         println!("{}", Self::message(&self));
 
+        Ok(())
+    }
+    fn deploy(&self) -> std::io::Result<()> {
+        self.import_files()?;
         Ok(())
     }
 }
