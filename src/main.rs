@@ -1,5 +1,5 @@
 use c2_cli::core::deployable::Deployable;
-use c2_cli::core::gen_deployable::{Api, Init, Logger, Timer};
+use c2_cli::core::gen_deployable::{Api, FormatPy, Init, Logger, Timer};
 use clap::{Parser, Subcommand, ValueEnum};
 
 #[derive(Parser)]
@@ -19,6 +19,9 @@ enum Commands {
     Init,
     /// Copies a reusable module into the current project (timer, logger, api...)
     Import { target: ImportTarget },
+    /// Calls ruff, isort and autoflake to format Python code
+    #[command(name = "format-py")]
+    FormatPy,
 }
 
 #[derive(ValueEnum, Clone)]
@@ -36,8 +39,8 @@ fn main() -> std::io::Result<()> {
             ImportTarget::Logger => Logger {}.deploy()?,
             ImportTarget::Api => Api {}.deploy()?,
         },
-
         Commands::Init => Init {}.deploy()?,
+        Commands::FormatPy => FormatPy {}.deploy()?,
     }
     Ok(())
 }
