@@ -1,2 +1,2 @@
 publish = false
-pre-release-hook = ["git", "cliff", "--unreleased", "--prepend", "CHANGELOG.md"]
+pre-release-hook = ["git", "cliff", "--unreleased", "--tag", "{{version}}", "--prepend", "CHANGELOG.md"]
