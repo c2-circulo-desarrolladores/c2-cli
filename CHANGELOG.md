@@ -1,3 +1,8 @@
+## [0.3.1] - 2026-06-28
+
+### ⚙️ Miscellaneous Tasks
+
+- Fixes release.toml so it does not show unreleased in changelog
 ## [unreleased]
 
 ### 🚀 Features
