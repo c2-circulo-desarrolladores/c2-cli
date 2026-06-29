@@ -16,12 +16,17 @@ c2 <COMMAND>
 
 ## Instalación
 
-### Desde Github
+### Directa
+```sh
+curl -fsSL https://raw.githubusercontent.com/c2-circulo-desarrolladores/c2-cli/main/install.sh | sh
+```
+
+### Con Cargo desde Github
 ```bash
 cargo install --git https://github.com/c2-circulo-desarrolladores/c2-cli
 ```
 
-### Localmente
+### Con Cargo localmente
 ```bash
 cargo install --path .
 ```
