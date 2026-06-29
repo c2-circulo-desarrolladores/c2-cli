@@ -3,7 +3,9 @@
 ### ⚙️ Miscellaneous Tasks
 
 - Fixes release.toml so it does not show unreleased in changelog
-## [unreleased]
+- Release c2-cli version 0.3.1
+
+## [0.3.0] - 2026-06-28
 
 ### 🚀 Features
 
@@ -12,7 +14,9 @@
 ### ⚙️ Miscellaneous Tasks
 
 - Adds git-cliff to release.toml
-## [0.2.0] - 2026-06-26
+- Release c2-cli version 0.3.0
+
+## [0.2.0] - 2026-06-28
 
 ### 🚀 Features
 
@@ -21,6 +25,7 @@
 ### 🐛 Bug Fixes
 
 - Updates release workflow
+- Fixes Cargo.toml edition
 
 ### 📚 Documentation
 
@@ -29,3 +34,10 @@
 ### ⚙️ Miscellaneous Tasks
 
 - Add git-cliff configuration
+- Updates changelog
+- Update Cargo.toml
+- Adds release.toml
+- Release c2-cli version 0.2.0
+
+## [0.1.0] - 2026-06-23
+
