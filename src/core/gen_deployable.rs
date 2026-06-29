@@ -11,7 +11,7 @@ impl Deployable for Init {
     fn deploy(&self) -> std::io::Result<()> {
         self.execute_command("uv init")?;
         self.import_files()?;
-        self.execute_command("uv add --dev isort autoflake ruff pre-commit")?;
+        self.execute_command("uv add --dev isort autoflake ruff pre-commit pytest")?;
         Ok(())
     }
 }
