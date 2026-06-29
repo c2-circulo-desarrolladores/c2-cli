@@ -1,3 +1,23 @@
+## [0.3.2] - 2026-06-29
+
+### 🚀 Features
+
+- *(init)* Init adds pytest as dev dependency
+
+### 🐛 Bug Fixes
+
+- *(init)* Cleans justfile of unused commands
+
+### 📚 Documentation
+
+- Adds direct installation instructions
+
+### ⚙️ Miscellaneous Tasks
+
+- Updates changelog
+- Updates release to generate binaries for mac and linux
+- Updates format for changelog generation
+
 ## [0.3.1] - 2026-06-28
 
 ### ⚙️ Miscellaneous Tasks
