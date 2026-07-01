@@ -26,7 +26,7 @@ impl Deployable for FormatPy {
     }
     fn deploy(&self) -> std::io::Result<()> {
         self.execute_command("uv run autoflake --in-place --remove-unused-variables --remove-all-unused-imports -r . --exclude '__init__.py'")?;
-        self.execute_command("uv run isort . --profile black")?;
+        self.execute_command("uv run isort . --profile black --skip-gitignore")?;
         self.execute_command("uv run ruff check --fix . --exit-zero")?;
         Ok(())
     }
