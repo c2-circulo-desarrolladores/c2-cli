@@ -1,3 +1,26 @@
+## [0.4.0] - 2026-07-02
+
+### 🚀 Features
+
+- **(init)** Adds CODEOWNERS file (closes #16)
+- **(init)** Adds cliff.toml to init command
+- **(release)** Adds release command
+
+### 🐛 Bug Fixes
+
+- **(init)** Release workflow only generates changelog for current tag range
+- **(format)** Isort skips .gitignore
+- Simplified msg when running commands
+- **(init)** Updates msg for init and adds git-cliff as dev dependency
+- Updates cliff.toml for project and init
+
+### 📚 Documentation
+
+- Adds instructions to install binary directly
+
+### ⚙️ Miscellaneous Tasks
+
+- Adds scripts to install binary directly
 ## [0.3.2] - 2026-06-29
 
 ### 🚀 Features
