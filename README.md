@@ -17,8 +17,15 @@ c2 <COMMAND>
 ## Instalación
 
 ### Directa
+
+**Linux/macOS:**
 ```sh
 curl -fsSL https://raw.githubusercontent.com/c2-circulo-desarrolladores/c2-cli/main/install.sh | sh
+```
+
+**Windows (PowerShell):**
+```powershell
+irm https://raw.githubusercontent.com/c2-circulo-desarrolladores/c2-cli/main/install.ps1 | iex
 ```
 
 ### Con Cargo desde Github
