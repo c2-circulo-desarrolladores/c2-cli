@@ -1,3 +1,9 @@
+## [0.4.1] - 2026-07-02
+
+### 🐛 Bug Fixes
+
+- Adds blank space after new version for changelog
+
 ## [0.4.0] - 2026-07-02
 
 ### 🚀 Features
