@@ -16,6 +16,28 @@ impl Deployable for Init {
     }
 }
 
+pub struct Release;
+
+impl Deployable for Release {
+    fn name(&self) -> &str {
+        "release"
+    }
+
+    fn message(&self) -> &str {
+        "Bumps version, updates changelog, creates tag and pushes new release"
+    }
+
+    fn deploy(&self) -> std::io::Result<()> {
+        self.execute_command("uv run cz bump")?;
+        self.execute_command("uv run git-cliff -o CHANGELOG.md")?;
+        self.execute_command("git add CHANGELOG.md")?;
+        self.execute_command("git commit -m \"chore(changelog): update changelog\"")?;
+        self.execute_command("git push origin main")?;
+        self.execute_command("git push origin --tags")?;
+        Ok(())
+    }
+}
+
 pub struct FormatPy {}
 impl Deployable for FormatPy {
     fn name(&self) -> &str {
