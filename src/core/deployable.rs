@@ -52,7 +52,7 @@ pub trait Deployable {
             .split_first()
             .ok_or(io::Error::new(io::ErrorKind::InvalidInput, "Lista vacía"))?;
         Command::new(program).args(args).output()?;
-        println!("Ran {:?} command", command_str);
+        println!("Ran {:?}", command_str);
         Ok(())
     }
 
