@@ -6,12 +6,34 @@ impl Deployable for Init {
         "init"
     }
     fn message(&self) -> &str {
-        "Initialized project with .gitignore, justfile and .github/"
+        "Initialized project with .gitignore, cliff.toml, justfile and .github/"
     }
     fn deploy(&self) -> std::io::Result<()> {
         self.execute_command("uv init")?;
         self.import_files()?;
-        self.execute_command("uv add --dev isort autoflake ruff pre-commit pytest")?;
+        self.execute_command("uv add --dev isort autoflake ruff pytest git-cliff")?;
+        Ok(())
+    }
+}
+
+pub struct Release;
+
+impl Deployable for Release {
+    fn name(&self) -> &str {
+        "release"
+    }
+
+    fn message(&self) -> &str {
+        "Bumps version, updates changelog, creates tag and pushes new release"
+    }
+
+    fn deploy(&self) -> std::io::Result<()> {
+        self.execute_command("uv run cz bump")?;
+        self.execute_command("uv run git-cliff -o CHANGELOG.md")?;
+        self.execute_command("git add CHANGELOG.md")?;
+        self.execute_command("git commit -m \"chore(changelog): update changelog\"")?;
+        self.execute_command("git push origin main")?;
+        self.execute_command("git push origin --tags")?;
         Ok(())
     }
 }
@@ -26,7 +48,7 @@ impl Deployable for FormatPy {
     }
     fn deploy(&self) -> std::io::Result<()> {
         self.execute_command("uv run autoflake --in-place --remove-unused-variables --remove-all-unused-imports -r . --exclude '__init__.py'")?;
-        self.execute_command("uv run isort . --profile black")?;
+        self.execute_command("uv run isort . --profile black --skip-gitignore")?;
         self.execute_command("uv run ruff check --fix . --exit-zero")?;
         Ok(())
     }
