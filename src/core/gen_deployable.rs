@@ -6,12 +6,12 @@ impl Deployable for Init {
         "init"
     }
     fn message(&self) -> &str {
-        "Initialized project with .gitignore, justfile and .github/"
+        "Initialized project with .gitignore, cliff.toml, justfile and .github/"
     }
     fn deploy(&self) -> std::io::Result<()> {
         self.execute_command("uv init")?;
         self.import_files()?;
-        self.execute_command("uv add --dev isort autoflake ruff pre-commit pytest")?;
+        self.execute_command("uv add --dev isort autoflake ruff pytest git-cliff")?;
         Ok(())
     }
 }
