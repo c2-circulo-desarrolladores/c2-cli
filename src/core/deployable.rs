@@ -26,14 +26,19 @@ fn copy_dir(src: &Path, target: &Path) -> std::io::Result<()> {
 
 pub trait Deployable {
     fn name(&self) -> &str;
-    fn message(&self) -> &str;
 
     fn user_wd(&self) -> io::Result<PathBuf> {
         std::env::current_dir()
     }
+
     fn project_root(&self) -> &PathBuf {
         &PROJECT_ROOT
     }
+
+    fn justfile_path(&self) -> PathBuf {
+        self.project_root().join("src").join("justfile")
+    }
+
     fn folder_path(&self) -> io::Result<PathBuf> {
         let path = PROJECT_ROOT.join("src").join("folders").join(self.name());
         if path.exists() && path.is_dir() {
@@ -46,13 +51,22 @@ pub trait Deployable {
         }
     }
 
-    fn execute_command(&self, command_str: &str) -> io::Result<()> {
-        let commands_vec: Vec<&str> = command_str.split(" ").collect();
-        let (program, args) = commands_vec
-            .split_first()
-            .ok_or(io::Error::new(io::ErrorKind::InvalidInput, "Lista vacía"))?;
-        Command::new(program).args(args).output()?;
-        println!("Ran {:?}", command_str);
+    fn execute_command(&self, recipe: &str) -> io::Result<()> {
+        let justfile = self.justfile_path();
+        let wd = self.user_wd()?;
+
+        let status = Command::new("just")
+            .arg("--justfile")
+            .arg(&justfile)
+            .arg("--working-directory")
+            .arg(&wd)
+            .arg(recipe)
+            .status()?; // <- status(), no output(): así stdout/stderr del recipe se ven en vivo
+
+        if !status.success() {
+            std::process::exit(status.code().unwrap_or(1));
+        }
+
         Ok(())
     }
 
@@ -61,12 +75,12 @@ pub trait Deployable {
         let target = self.user_wd()?;
 
         copy_dir(&src, &target)?;
-        println!("{}", Self::message(&self));
+        Ok(())
+    }
 
-        Ok(())
-    }
-    fn deploy(&self) -> std::io::Result<()> {
-        self.import_files()?;
-        Ok(())
-    }
+    // fn write_files(&self) -> () {
+    //     todo!("No implementado")
+    // }
+
+    fn deploy(&self) -> std::io::Result<()>;
 }
