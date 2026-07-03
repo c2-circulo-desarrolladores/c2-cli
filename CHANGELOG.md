@@ -1,3 +1,10 @@
+## [0.5.0] - 2026-07-03
+
+### 🚀 Features
+
+- **(general)** Includes just as dependency and delegates it to run commands (closes #23)
+- **(init)** Init includes a README.md template (closes #8)
+
 ## [0.4.1] - 2026-07-02
 
 ### 🐛 Bug Fixes
