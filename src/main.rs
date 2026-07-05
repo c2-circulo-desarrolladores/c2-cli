@@ -1,5 +1,7 @@
-use c2_cli::core::deployable::Deployable;
-use c2_cli::core::gen_deployable::{Api, FormatPy, Init, Logger, Release, Timer};
+use c2_cli::deployables::Deployable;
+use c2_cli::deployables::executables::{FormatPy, Release};
+use c2_cli::deployables::importables::{Api, Logger, Timer};
+use c2_cli::deployables::init::Init;
 
 use clap::{Parser, Subcommand, ValueEnum};
 
