@@ -27,8 +27,8 @@ fn copy_dir(src: &Path, target: &Path) -> std::io::Result<()> {
 pub trait Deployable {
     fn name(&self) -> &str;
 
-    fn user_wd(&self) -> io::Result<PathBuf> {
-        std::env::current_dir()
+    fn user_wd(&self) -> PathBuf {
+        return std::env::current_dir().unwrap();
     }
 
     fn project_root(&self) -> &PathBuf {
@@ -53,13 +53,12 @@ pub trait Deployable {
 
     fn execute_command(&self, recipe: &str) -> io::Result<()> {
         let justfile = self.justfile_path();
-        let wd = self.user_wd()?;
 
         let status = Command::new("just")
             .arg("--justfile")
             .arg(&justfile)
             .arg("--working-directory")
-            .arg(&wd)
+            .arg(&self.user_wd())
             .arg(recipe)
             .status()?; // <- status(), no output(): así stdout/stderr del recipe se ven en vivo
 
@@ -72,7 +71,7 @@ pub trait Deployable {
 
     fn import_files(&self) -> std::io::Result<()> {
         let src = self.folder_path()?;
-        let target = self.user_wd()?;
+        let target = self.user_wd();
 
         copy_dir(&src, &target)?;
         Ok(())
