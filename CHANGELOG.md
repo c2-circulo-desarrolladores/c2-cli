@@ -1,3 +1,16 @@
+## [0.6.0] - 2026-07-05
+
+### 🚀 Features
+
+- **(general)** Adds --version flag (closes #20)
+- **(io)** Adds FileParser struct to read and write to files
+- **(init)** Init command writes [tool.commitizen] block to pyproject.toml (closes #17)
+- **(init)** Init command writes hatchling block to pyproject.toml (closes #22)
+
+### 🚜 Refactor
+
+- Moves deployables to own modules
+
 ## [0.5.0] - 2026-07-03
 
 ### 🚀 Features
