@@ -3,7 +3,7 @@ set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
 init:
     git init
     uv init
-    uv add --dev isort autoflake ruff pytest git-cliff
+    uv add --dev ruff pytest git-cliff
 
 release:
     uv run cz bump
@@ -14,6 +14,4 @@ release:
     git push origin --tags
 
 format-py:
-    uv run autoflake --in-place --remove-unused-variables --remove-all-unused-imports -r . --exclude '__init__.py'
-    uv run isort . --profile black --skip-gitignore
-    uv run ruff check --fix . --exit-zero
+    uv run ruff check --fix .
