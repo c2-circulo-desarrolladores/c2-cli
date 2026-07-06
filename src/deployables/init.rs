@@ -24,6 +24,13 @@ packages = ["{package_name}"]
         pyproject_parser.append_to_file(&hatchling_block)?;
         println!("✓ Written 'hatchling' block to pyproject.toml");
 
+        let ruff_block = r#"
+[tool.ruff.lint]
+select = ["F", "I", "E"]
+"#;
+        pyproject_parser.append_to_file(&ruff_block)?;
+        println!("✓ Written 'ruff' block to pyproject.toml");
+
         let version_line = pyproject_parser.get_lines("version =");
         let version_str = version_line
             .iter()
@@ -41,7 +48,7 @@ version_files = ["pyproject.toml:version"]
 tag_format = "v$version""#
         );
         pyproject_parser.append_to_file(&commitizen_block)?;
-        println!("✓ Written '[tool.commitizen]' block to pyproject.toml");
+        println!("✓ Written 'commitizen' block to pyproject.toml");
 
         Ok(())
     }
