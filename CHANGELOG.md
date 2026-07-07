@@ -1,3 +1,19 @@
+## [0.6.1] - 2026-07-07
+
+### 🚀 Features
+
+- **(init)** Activates commit preprocessor pattern for cliff.toml ([#30](<REPO>/issues/30))
+- **(init)** Init adds ruff config block to pyproject.toml
+- **(init)** Removes autoflake and isort dependencies ([#31](<REPO>/issues/31))
+
+### 📚 Documentation
+
+- Update README.md with new commands
+
+### ⚙️ Miscellaneous Tasks
+
+- Updates release.yml so it shows latest changelog entry
+
 ## [0.6.0] - 2026-07-05
 
 ### 🚀 Features
