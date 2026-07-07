@@ -1,3 +1,9 @@
+## [0.6.2] - 2026-07-07
+
+### 🐛 Bug Fixes
+
+- Fixes release.yml
+
 ## [0.6.1] - 2026-07-07
 
 ### 🚀 Features
