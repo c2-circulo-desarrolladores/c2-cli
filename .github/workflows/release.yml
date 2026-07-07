@@ -16,43 +16,35 @@ jobs:
             target: x86_64-pc-windows-msvc
             asset_name: c2-windows-x86_64.zip
             is_windows: true
-
           - os: windows-latest
             target: aarch64-pc-windows-msvc
             asset_name: c2-windows-aarch64.zip
             is_windows: true
-
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
             asset_name: c2-linux-x86_64
-
           - os: ubuntu-latest
             target: aarch64-unknown-linux-gnu
             asset_name: c2-linux-aarch64
-
           - os: macos-latest
             target: aarch64-apple-darwin
             asset_name: c2-macos-aarch64
-
     steps:
       - uses: actions/checkout@v4
-
+        with:
+          fetch-depth: 0
       - uses: dtolnay/rust-toolchain@stable
         with:
           targets: ${{ matrix.target }}
-
       # Solo para Linux ARM64: instalar el cross-compiler y decirle a Cargo qué linker usar
       - name: Install cross-compiler (Linux ARM64)
         if: matrix.target == 'aarch64-unknown-linux-gnu'
         run: sudo apt-get update && sudo apt-get install -y gcc-aarch64-linux-gnu
-
       - name: Configure linker (Linux ARM64)
         if: matrix.target == 'aarch64-unknown-linux-gnu'
         run: echo "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc" >> "$GITHUB_ENV"
-
       - name: Build
         run: cargo build --release --target ${{ matrix.target }}
-
       # Windows: zip
       - name: Package (Windows)
         if: matrix.is_windows
@@ -61,13 +53,18 @@ jobs:
           copy target\${{ matrix.target }}\release\c2.exe dist\c2.exe
           powershell Compress-Archive -Path dist\c2.exe -DestinationPath ${{ matrix.asset_name }}
         shell: cmd
-
       # Linux/Mac: binario directo
       - name: Package (Unix)
         if: "!matrix.is_windows"
         run: |
           cp target/${{ matrix.target }}/release/c2 ${{ matrix.asset_name }}
-
+      - name: Generate changelog
+        id: changelog
+        uses: orhun/git-cliff-action@v3
+        with:
+          config: cliff.toml
+          args: --latest --strip header
       - uses: softprops/action-gh-release@v2
         with:
           files: ${{ matrix.asset_name }}
+          body: ${{ steps.changelog.outputs.content }}

@@ -11,21 +11,23 @@ c2 <COMMAND>
 | Comando | Descripción |
 |--------|-------------|
 | `init` | Inicializa un proyecto Python corriendo `'uv init'` y agrega `.gitignore`, `justfile` y `.github/` |
+| `release` | Release completo: aumentar version, generar changelog, generar tag, commit y push |
 | `import` | Copia un módulo reutilizable al proyecto actual (`timer`, `logger`, `api`...) |
+| `format-py` | Llama a ruff para formatear código de Python |
 | `help` | Muestra ayuda |
 
 ## Instalación
 
 ### Directa
 
-**Linux/macOS:**
-```sh
-curl -fsSL https://raw.githubusercontent.com/c2-circulo-desarrolladores/c2-cli/main/install.sh | sh
-```
-
 **Windows (PowerShell):**
 ```powershell
 irm https://raw.githubusercontent.com/c2-circulo-desarrolladores/c2-cli/main/install.ps1 | iex
+```
+
+**Linux/macOS:**
+```sh
+curl -fsSL https://raw.githubusercontent.com/c2-circulo-desarrolladores/c2-cli/main/install.sh | sh
 ```
 
 ### Con Cargo desde Github
@@ -37,6 +39,7 @@ cargo install --git https://github.com/c2-circulo-desarrolladores/c2-cli
 ```bash
 cargo install --path .
 ```
+
 ## Uso
 
 ### Inicializar un proyecto
@@ -52,7 +55,3 @@ c2 import timer
 c2 import logger
 c2 import api
 ```
-
-## Roadmap
-
-- [ ] Fix `recursive_add` — mostrar rutas relativas al root, no absolutas
