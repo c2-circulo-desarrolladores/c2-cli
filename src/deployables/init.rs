@@ -28,7 +28,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["{package_name}"]
+packages = ["src.{package_name}"]
 "#,
         );
         pyproject_parser.append_to_file(&hatchling_block)?;
