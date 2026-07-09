@@ -1,5 +1,5 @@
 use c2_cli::deployables::Deployable;
-use c2_cli::deployables::executables::{FormatPy, Release};
+use c2_cli::deployables::executables::{Format, Release};
 use c2_cli::deployables::importables::{Api, Logger, Timer};
 use c2_cli::deployables::init::Init;
 
@@ -29,8 +29,8 @@ enum Commands {
     Import { target: ImportTarget },
 
     /// Calls ruff, isort and autoflake to format Python code
-    #[command(name = "format-py")]
-    FormatPy,
+    #[command(name = "format")]
+    Format,
 
     /// Full release: bump version, generate changelog, commit, tag and push
     Release,
@@ -57,8 +57,8 @@ fn main() -> std::io::Result<()> {
             ImportTarget::Api => Api {}.deploy()?,
         },
 
-        Commands::FormatPy => {
-            FormatPy {}.deploy()?;
+        Commands::Format => {
+            Format {}.deploy()?;
         }
 
         Commands::Release => {

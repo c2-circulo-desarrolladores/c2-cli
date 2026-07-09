@@ -1,6 +1,5 @@
 use crate::deployables::base::Deployable;
 
-
 pub struct Release {}
 impl Deployable for Release {
     fn name(&self) -> &str {
@@ -8,19 +7,19 @@ impl Deployable for Release {
     }
 
     fn deploy(&self) -> std::io::Result<()> {
-        self.execute_command("release")?;
+        self.execute_just("release")?;
         Ok(())
     }
 }
 
-pub struct FormatPy {}
-impl Deployable for FormatPy {
+pub struct Format {}
+impl Deployable for Format {
     fn name(&self) -> &str {
-        "format-py"
+        "format"
     }
 
     fn deploy(&self) -> std::io::Result<()> {
-        self.execute_command("format-py")?;
+        self.execute_just("format-py")?;
         Ok(())
     }
 }
