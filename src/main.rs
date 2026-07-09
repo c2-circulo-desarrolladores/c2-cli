@@ -19,7 +19,11 @@ struct CLI {
 #[derive(Subcommand)]
 enum Commands {
     /// Initializes Python project with .gitignore, justfile and .github/
-    Init,
+    Init {
+        /// GitHub owner/org used to fill '<OWNER>' in cliff.toml (optional)
+        #[arg(long)]
+        owner: Option<String>,
+    },
 
     /// Copies a reusable module into the current project (timer, logger, api...)
     Import { target: ImportTarget },
@@ -43,8 +47,8 @@ fn main() -> std::io::Result<()> {
     let cli = CLI::parse();
 
     match cli.command {
-        Commands::Init => {
-            Init {}.deploy()?;
+        Commands::Init { owner } => {
+            Init { owner }.deploy()?;
         }
 
         Commands::Import { target } => match target {
