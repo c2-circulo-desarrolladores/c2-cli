@@ -14,13 +14,13 @@ impl Init {
             .to_string();
     }
 
-    fn dir_name(&self) -> String {
+    fn package_name(&self) -> String {
         return self.dir_name().replace("-", "_");
     }
 
     fn write_to_pyproject(&self) -> std::io::Result<()> {
         let mut pyproject_parser = FileParser::from(self.user_wd().join("pyproject.toml"))?;
-        let package_name = self.dir_name();
+        let package_name = self.package_name();
         let hatchling_block = format!(
             r#"
 [build-system]
@@ -65,13 +65,19 @@ tag_format = "v$version""#
 
     fn write_to_cliff(&self) -> std::io::Result<()> {
         let mut cliff_parser = FileParser::from(self.user_wd().join("cliff.toml"))?;
-        let new_content = cliff_parser
-            .contents
-            .replace("<REPO>", &self.dir_name());
+        let mut new_content = cliff_parser.contents.replace("<REPO>", &self.dir_name());
+
+        let mut placeholder = "";
+        if let Some(owner) = &self.owner {
+            new_content = new_content.replace("<OWNER>", owner);
+            placeholder = "and <OWNER>";
+        }
+
         cliff_parser.replace_content(new_content)?;
 
         println!(
-            "✓ Replace '<REPO>' in cliff.toml with {}",
+            "✓ Replaced '<REPO>' {} in cliff.toml with {}",
+            placeholder,
             &self.dir_name()
         );
 
