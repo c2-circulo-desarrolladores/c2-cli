@@ -3,14 +3,22 @@ use crate::io::file_parser::FileParser;
 
 pub struct Init {}
 impl Init {
-    fn write_to_toml(&self) -> std::io::Result<()> {
-        let mut pyproject_parser = FileParser::from(self.user_wd().join("pyproject.toml"))?;
-        let package_name = self
+    fn dir_name(&self) -> String {
+        return self
             .user_wd()
             .file_name()
             .unwrap()
             .to_string_lossy()
-            .replace("-", "_");
+            .to_string();
+    }
+
+    fn dir_name(&self) -> String {
+        return self.dir_name().replace("-", "_");
+    }
+
+    fn write_to_pyproject(&self) -> std::io::Result<()> {
+        let mut pyproject_parser = FileParser::from(self.user_wd().join("pyproject.toml"))?;
+        let package_name = self.dir_name();
         let hatchling_block = format!(
             r#"
 [build-system]
@@ -52,6 +60,21 @@ tag_format = "v$version""#
 
         Ok(())
     }
+
+    fn write_to_cliff(&self) -> std::io::Result<()> {
+        let mut cliff_parser = FileParser::from(self.user_wd().join("cliff.toml"))?;
+        let new_content = cliff_parser
+            .contents
+            .replace("<REPO>", &self.dir_name());
+        cliff_parser.replace_content(new_content)?;
+
+        println!(
+            "✓ Replace '<REPO>' in cliff.toml with {}",
+            &self.dir_name()
+        );
+
+        Ok(())
+    }
 }
 
 impl Deployable for Init {
@@ -62,7 +85,8 @@ impl Deployable for Init {
     fn deploy(&self) -> std::io::Result<()> {
         self.execute_command("init")?;
         self.import_files()?;
-        self.write_to_toml()?;
+        self.write_to_pyproject()?;
+        self.write_to_cliff()?;
         println!("✓ Initialized project with .gitignore, cliff.toml, justfile and .github/");
         Ok(())
     }
