@@ -35,4 +35,10 @@ impl FileParser {
         fs::write(&self.file_path, &self.contents)?;
         Ok(())
     }
+
+    pub fn replace_content(&mut self, contents: String) -> std::io::Result<()> {
+        fs::write(&self.file_path, &contents)?;
+        self.contents = contents;
+        Ok(())
+    }
 }
