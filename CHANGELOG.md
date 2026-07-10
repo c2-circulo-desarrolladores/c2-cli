@@ -1,3 +1,10 @@
+## [0.7.1] - 2026-07-10
+
+### 🚀 Features
+
+- **(init)** Replaces <REPO> with current dir name (relates to #35)
+- **(init)** Adds optional argument to insert OWNER to parse repo url in cliff.toml ([#35](<REPO>/issues/35))
+
 ## [0.7.0] - 2026-07-10
 
 ### 🚀 Features
