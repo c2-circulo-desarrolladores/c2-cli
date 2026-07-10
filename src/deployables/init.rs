@@ -100,8 +100,6 @@ impl Deployable for Init {
         let folders = format!("src/{dir_name}");
         self.execute_just("init")?;
         self.import_files()?;
-        self.execute_just_with("mkdir", &[&folders])?;
-        self.execute_just_with("mkdir", &[&"tests"])?;
         self.write_to_pyproject()?;
         self.write_to_cliff()?;
         self.execute_just_with("mkdir", &[&folders])?;
