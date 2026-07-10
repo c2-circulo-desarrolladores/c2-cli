@@ -1,3 +1,23 @@
+## [0.7.0] - 2026-07-10
+
+### 🚀 Features
+
+- **(init)** Replaces <REPO> with current dir name (relates to #35)
+- **(init)** Adds optional argument to insert OWNER to parse repo url in cliff.toml ([#35](<REPO>/issues/35))
+
+### 🐛 Bug Fixes
+
+- **(init)** Format_check workflow does not include isort and autoflake check anymore
+- **(init)** Migrates to src layout for new projects
+- **(init)** Fixes typo y hatchling block
+- Fixes conflicts in init.rs
+- **(format)** Changed name for command format-py -> format
+- **(init)** Resolves conflict with execute just
+
+### ⚙️ Miscellaneous Tasks
+
+- Fixes conflicts
+
 ## [0.6.2] - 2026-07-07
 
 ### 🐛 Bug Fixes
