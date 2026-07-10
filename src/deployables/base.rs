@@ -51,21 +51,24 @@ pub trait Deployable {
         }
     }
 
-    fn execute_command(&self, recipe: &str) -> io::Result<()> {
-        let justfile = self.justfile_path();
+    fn execute_just(&self, recipe: &str) -> io::Result<()> {
+        self.execute_just_with(recipe, &[])?;
+        Ok(())
+    }
 
+    fn execute_just_with(&self, recipe: &str, args: &[&str]) -> io::Result<()> {
+        let justfile = self.justfile_path();
         let status = Command::new("just")
             .arg("--justfile")
             .arg(&justfile)
             .arg("--working-directory")
             .arg(&self.user_wd())
             .arg(recipe)
-            .status()?; // <- status(), no output(): así stdout/stderr del recipe se ven en vivo
-
+            .args(args)
+            .status()?;
         if !status.success() {
             std::process::exit(status.code().unwrap_or(1));
         }
-
         Ok(())
     }
 

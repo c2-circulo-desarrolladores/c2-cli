@@ -91,10 +91,19 @@ impl Deployable for Init {
     }
 
     fn deploy(&self) -> std::io::Result<()> {
-        self.execute_command("init")?;
+        let dir_name = self
+            .user_wd()
+            .file_name()
+            .unwrap()
+            .to_string_lossy()
+            .into_owned();
+        let folders = format!("src/{dir_name}");
+        self.execute_just("init")?;
         self.import_files()?;
         self.write_to_pyproject()?;
         self.write_to_cliff()?;
+        self.execute_just_with("mkdir", &[&folders])?;
+        self.execute_just_with("mkdir", &[&"tests"])?;
         println!("✓ Initialized project with .gitignore, cliff.toml, justfile and .github/");
         Ok(())
     }
