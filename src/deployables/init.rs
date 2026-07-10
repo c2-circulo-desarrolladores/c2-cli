@@ -5,22 +5,14 @@ pub struct Init {
     pub owner: Option<String>,
 }
 impl Init {
-    fn dir_name(&self) -> String {
-        return self
+    fn write_to_toml(&self) -> std::io::Result<()> {
+        let mut pyproject_parser = FileParser::from(self.user_wd().join("pyproject.toml"))?;
+        let package_name = self
             .user_wd()
             .file_name()
             .unwrap()
             .to_string_lossy()
-            .to_string();
-    }
-
-    fn package_name(&self) -> String {
-        return self.dir_name().replace("-", "_");
-    }
-
-    fn write_to_pyproject(&self) -> std::io::Result<()> {
-        let mut pyproject_parser = FileParser::from(self.user_wd().join("pyproject.toml"))?;
-        let package_name = self.package_name();
+            .replace("-", "_");
         let hatchling_block = format!(
             r#"
 [build-system]
@@ -59,27 +51,6 @@ tag_format = "v$version""#
         );
         pyproject_parser.append_to_file(&commitizen_block)?;
         println!("✓ Written 'commitizen' block to pyproject.toml");
-
-        Ok(())
-    }
-
-    fn write_to_cliff(&self) -> std::io::Result<()> {
-        let mut cliff_parser = FileParser::from(self.user_wd().join("cliff.toml"))?;
-        let mut new_content = cliff_parser.contents.replace("<REPO>", &self.dir_name());
-
-        let mut placeholder = "";
-        if let Some(owner) = &self.owner {
-            new_content = new_content.replace("<OWNER>", owner);
-            placeholder = "and <OWNER>";
-        }
-
-        cliff_parser.replace_content(new_content)?;
-
-        println!(
-            "✓ Replaced '<REPO>' {} in cliff.toml with {}",
-            placeholder,
-            &self.dir_name()
-        );
 
         Ok(())
     }
