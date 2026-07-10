@@ -76,6 +76,9 @@ commit_parsers = [
     { body = ".*security", group = "<!-- 8 -->🛡️ Security" },
     { message = "^revert", group = "<!-- 9 -->◀️ Revert" },
     { message = ".*", group = "<!-- 10 -->💼 Other" },
+
+    { message = "^chore\\(changelog\\):", skip = true },
+    { message = "^bump:\\s*version\\s+\\d+\\.\\d+\\.\\d+\\s*→\\s*\\d+\\.\\d+\\.\\d+", skip = true },
 ]
 # Exclude commits that are not matched by any commit parser.
 filter_commits = false
