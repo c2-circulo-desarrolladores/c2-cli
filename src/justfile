@@ -11,7 +11,7 @@ release:
     uv run cz bump
     uv run git-cliff -o CHANGELOG.md
     git add CHANGELOG.md
-    git commit -m "chore(changelog): update changelog\"
+    git commit -m "chore(changelog): update changelog"
     git push origin main
     git push origin --tags
 
