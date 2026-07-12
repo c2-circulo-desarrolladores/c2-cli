@@ -1,6 +1,6 @@
 [package]
 name = "c2-cli"
-version = "0.7.1"
+version = "0.8.0"
 edition = "2024"
 description = "CLI para inicializar proyectos Python e importar módulos reutilizables."
 license = "MIT"

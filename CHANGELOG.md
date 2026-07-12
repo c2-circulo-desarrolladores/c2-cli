@@ -1,3 +1,23 @@
+## [0.8.0] - 2026-07-12
+
+### 🚀 Features
+
+- **(init)** Adds .vscode/ folder after to init command
+- **(init)** Updates .gitignore to exclude .vscode/
+- **(init)** Updates .gitignore to exclude .vscode/
+- **(init)** Adds pre-commit to init command to lint before committing ([#41](c2-cli/issues/41))
+
+### 🐛 Bug Fixes
+
+- Cliff.toml now ignores changelog-related commits in changelog
+- **(release)** Fixes typo in release commit
+- **(release)** Release workflow uses git-cliff for release message
+- **(release)** Fixes typo in commit message
+
+### ⚙️ Miscellaneous Tasks
+
+- Updates cliff.toml
+
 ## [0.7.1] - 2026-07-10
 
 ### 🚀 Features
