@@ -1,3 +1,13 @@
+## [0.8.1] - 2026-07-12
+
+### 🐛 Bug Fixes
+
+- **(init)** Fixes issue with cliff.toml not generating valid urls for issues
+
+### 📚 Documentation
+
+- Changes command format-py -> format in README
+
 ## [0.8.0] - 2026-07-12
 
 ### 🚀 Features
