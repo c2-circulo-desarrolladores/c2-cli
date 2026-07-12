@@ -15,7 +15,7 @@
 - **(init)** Adds .vscode/ folder after to init command
 - **(init)** Updates .gitignore to exclude .vscode/
 - **(init)** Updates .gitignore to exclude .vscode/
-- **(init)** Adds pre-commit to init command to lint before committing ([#41](c2-cli/issues/41))
+- **(init)** Adds pre-commit to init command to lint before committing ([#41](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/41))
 
 ### 🐛 Bug Fixes
 
@@ -33,14 +33,14 @@
 ### 🚀 Features
 
 - **(init)** Replaces <REPO> with current dir name (relates to #35)
-- **(init)** Adds optional argument to insert OWNER to parse repo url in cliff.toml ([#35](<REPO>/issues/35))
+- **(init)** Adds optional argument to insert OWNER to parse repo url in cliff.toml ([#35](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/35))
 
 ## [0.7.0] - 2026-07-10
 
 ### 🚀 Features
 
 - **(init)** Replaces <REPO> with current dir name (relates to #35)
-- **(init)** Adds optional argument to insert OWNER to parse repo url in cliff.toml ([#35](<REPO>/issues/35))
+- **(init)** Adds optional argument to insert OWNER to parse repo url in cliff.toml ([#35](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/35))
 
 ### 🐛 Bug Fixes
 
@@ -65,9 +65,9 @@
 
 ### 🚀 Features
 
-- **(init)** Activates commit preprocessor pattern for cliff.toml ([#30](<REPO>/issues/30))
+- **(init)** Activates commit preprocessor pattern for cliff.toml ([#30](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/30))
 - **(init)** Init adds ruff config block to pyproject.toml
-- **(init)** Removes autoflake and isort dependencies ([#31](<REPO>/issues/31))
+- **(init)** Removes autoflake and isort dependencies ([#31](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/31))
 
 ### 📚 Documentation
 
@@ -81,10 +81,10 @@
 
 ### 🚀 Features
 
-- **(general)** Adds --version flag (closes #20)
+- **(general)** Adds --version flag ([#20](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/20))
 - **(io)** Adds FileParser struct to read and write to files
-- **(init)** Init command writes [tool.commitizen] block to pyproject.toml (closes #17)
-- **(init)** Init command writes hatchling block to pyproject.toml (closes #22)
+- **(init)** Init command writes [tool.commitizen] block to pyproject.toml ([#17](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/17))
+- **(init)** Init command writes hatchling block to pyproject.toml ([#22](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/22))
 
 ### 🚜 Refactor
 
@@ -94,8 +94,8 @@
 
 ### 🚀 Features
 
-- **(general)** Includes just as dependency and delegates it to run commands (closes #23)
-- **(init)** Init includes a README.md template (closes #8)
+- **(general)** Includes just as dependency and delegates it to run commands ([#23](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/23))
+- **(init)** Init includes a README.md template ([#8](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/8))
 
 ## [0.4.1] - 2026-07-02
 
@@ -107,7 +107,7 @@
 
 ### 🚀 Features
 
-- **(init)** Adds CODEOWNERS file (closes #16)
+- **(init)** Adds CODEOWNERS file ([#16](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/16))
 - **(init)** Adds cliff.toml to init command
 - **(release)** Adds release command
 
@@ -126,15 +126,16 @@
 ### ⚙️ Miscellaneous Tasks
 
 - Adds scripts to install binary directly
+
 ## [0.3.2] - 2026-06-29
 
 ### 🚀 Features
 
-- *(init)* Init adds pytest as dev dependency
+- **(init)** Init adds pytest as dev dependency
 
 ### 🐛 Bug Fixes
 
-- *(init)* Cleans justfile of unused commands
+- **(init)** Cleans justfile of unused commands
 
 ### 📚 Documentation
 
@@ -151,7 +152,6 @@
 ### ⚙️ Miscellaneous Tasks
 
 - Fixes release.toml so it does not show unreleased in changelog
-- Release c2-cli version 0.3.1
 
 ## [0.3.0] - 2026-06-28
 
@@ -162,13 +162,12 @@
 ### ⚙️ Miscellaneous Tasks
 
 - Adds git-cliff to release.toml
-- Release c2-cli version 0.3.0
 
 ## [0.2.0] - 2026-06-28
 
 ### 🚀 Features
 
-- *(init)* Init also adds dev dependencies
+- **(init)** Init also adds dev dependencies
 
 ### 🐛 Bug Fixes
 
@@ -185,7 +184,6 @@
 - Updates changelog
 - Update Cargo.toml
 - Adds release.toml
-- Release c2-cli version 0.2.0
 
 ## [0.1.0] - 2026-06-23
 
