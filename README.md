@@ -13,7 +13,7 @@ c2 <COMMAND>
 | `init` | Inicializa un proyecto Python corriendo `'uv init'` y agrega `.gitignore`, `justfile` y `.github/` |
 | `release` | Release completo: aumentar version, generar changelog, generar tag, commit y push |
 | `import` | Copia un módulo reutilizable al proyecto actual (`timer`, `logger`, `api`...) |
-| `format-py` | Llama a ruff para formatear código de Python |
+| `format` | Llama a ruff para formatear código de Python de todo el repositorio |
 | `help` | Muestra ayuda |
 
 ## Instalación
