@@ -3,7 +3,9 @@ set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
 init:
     git init
     uv init
-    uv add --dev ruff pytest git-cliff
+    uv add --dev ruff pre-commit git-cliff pytest
+    uv run pre-commit install
+    
 
 release:
     uv run cz bump
