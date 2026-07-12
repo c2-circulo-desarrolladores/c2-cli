@@ -30,12 +30,12 @@ irm https://raw.githubusercontent.com/c2-circulo-desarrolladores/c2-cli/main/ins
 curl -fsSL https://raw.githubusercontent.com/c2-circulo-desarrolladores/c2-cli/main/install.sh | sh
 ```
 
-### Con Cargo desde Github
+**Con Cargo desde Github**
 ```bash
 cargo install --git https://github.com/c2-circulo-desarrolladores/c2-cli
 ```
 
-### Con Cargo localmente
+**Con Cargo localmente**
 ```bash
 cargo install --path .
 ```

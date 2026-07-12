@@ -49,7 +49,7 @@ split_commits = false
 # An array of regex based parsers to modify commit messages prior to further processing.
 commit_preprocessors = [
     # Replace issue numbers with link templates to be updated in `changelog.postprocessors`.
-    { pattern = '\((\w+\s)?#([0-9]+)\)', replace = "([#${2}](<REPO>/issues/${2}))"},
+    { pattern = '\((\w+\s)?#([0-9]+)\)', replace = "([#${2}](c2-cli/issues/${2}))"},
     # Check spelling of the commit message using https://github.com/crate-ci/typos.
     # If the spelling is incorrect, it will be fixed automatically.
     #{ pattern = '.*', replace_command = 'typos --write-changes -' },
@@ -76,6 +76,9 @@ commit_parsers = [
     { body = ".*security", group = "<!-- 8 -->🛡️ Security" },
     { message = "^revert", group = "<!-- 9 -->◀️ Revert" },
     { message = ".*", group = "<!-- 10 -->💼 Other" },
+
+    { message = "^chore\\(changelog\\):", skip = true },
+    { message = "^bump:\\s*version\\s+\\d+\\.\\d+\\.\\d+\\s*→\\s*\\d+\\.\\d+\\.\\d+", skip = true },
 ]
 # Exclude commits that are not matched by any commit parser.
 filter_commits = false
@@ -83,7 +86,7 @@ filter_commits = false
 fail_on_unmatched_commit = false
 # An array of link parsers for extracting external references, and turning them into URLs, using regex.
 link_parsers = [
-    { pattern = "(?i)closes\\s+#([0-9]+)", href = "https://github.com/<OWNER>/<REPO>/issues/$1" }
+    { pattern = "(?i)closes\\s+#([0-9]+)", href = "https://github.com/c2-circulo-desarrolladores/c2-cli/issues/$1" }
 ]
 # Include only the tags that belong to the current branch.
 use_branch_tags = false

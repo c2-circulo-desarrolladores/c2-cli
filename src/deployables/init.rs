@@ -37,6 +37,7 @@ packages = ["src/{package_name}"]
         let ruff_block = r#"
 [tool.ruff.lint]
 select = ["F", "I", "E"]
+ignore = ["E501"]
 "#;
         pyproject_parser.append_to_file(&ruff_block)?;
         println!("✓ Written 'ruff' block to pyproject.toml");

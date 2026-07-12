@@ -3,13 +3,15 @@ set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
 init:
     git init
     uv init
-    uv add --dev ruff pytest git-cliff
+    uv add --dev ruff pre-commit git-cliff pytest
+    uv run pre-commit install
+    
 
 release:
     uv run cz bump
     uv run git-cliff -o CHANGELOG.md
     git add CHANGELOG.md
-    git commit -m \"chore(changelog): update changelog\"
+    git commit -m "chore(changelog): update changelog"
     git push origin main
     git push origin --tags
 
