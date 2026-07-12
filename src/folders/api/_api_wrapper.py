@@ -1,5 +1,5 @@
 """
-AsyncApiWrapper: clase base abstracta para clientes de API asíncronos.
+AsyncApiWrapper: clase base abstracta para envolver clientes de API asíncronos.
 
 Provee manejo de sesión HTTP (via httpx2.AsyncClient), conteo de requests,
 y métodos de conveniencia (GET/POST/PATCH/DELETE).
@@ -30,8 +30,6 @@ from typing import Any, Optional
 
 import httpx2
 
-from .ensure_logger import ensure_logger
-
 
 class AsyncApiWrapper(ABC):
     BASE_URL: str
@@ -45,7 +43,7 @@ class AsyncApiWrapper(ABC):
         self.timeout = timeout
         self.headers: dict
         self._client: Optional[httpx2.AsyncClient]
-        self.logger = ensure_logger(logger)
+        self.logger = logger or logging.getLogger(self.__class__.__module__)
         self.api_calls = 0
         # Implementation for child classes:
         # super().__init__(api_key, timeout, logger)
