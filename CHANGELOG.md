@@ -1,3 +1,11 @@
+## [0.8.3] - 2026-07-12
+
+### 🐛 Bug Fixes
+
+- **(api)** Changes dependency httpx -> httpx2 ([#45](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/45))
+- **(api)** Api_wrapper includes a module doc with instructions; keeps original exceptions
+- **(api)** Deletes dependency from ensure_logger and uses generic logger
+
 ## [0.8.2] - 2026-07-12
 
 ### 🐛 Bug Fixes
