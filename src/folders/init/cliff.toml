@@ -48,8 +48,10 @@ require_conventional = false
 split_commits = false
 # An array of regex based parsers to modify commit messages prior to further processing.
 commit_preprocessors = [
-    # Replace issue numbers with link templates to be updated in `changelog.postprocessors`.
-    { pattern = '\((\w+\s)?#([0-9]+)\)', replace = "([#${2}](https://github.com/<OWNER>/<REPO>/issues/${2}))"},
+    # Replace issue numbers with FULL absolute link templates (must be absolute,
+    # not relative — a relative link here gets resolved by GitHub against the
+    # current file path, e.g. /blob/main/, producing a broken URL).
+    { pattern = '\((\w+\s)?#([0-9]+)\)', replace = "([#${2}](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/${2}))"},
     # Check spelling of the commit message using https://github.com/crate-ci/typos.
     # If the spelling is incorrect, it will be fixed automatically.
     #{ pattern = '.*', replace_command = 'typos --write-changes -' },
@@ -59,6 +61,10 @@ protect_breaking_commits = false
 # An array of regex based parsers for extracting data from the commit message.
 # Assigns commits to groups.
 # Optionally sets the commit's scope and can decide to exclude commits from further processing.
+#
+# IMPORTANT: this list is evaluated top-to-bottom, FIRST MATCH WINS.
+# Order must be: specific groups -> specific skips -> generic groups -> catch-all last.
+# The ".*" rule MUST be the very last entry, or every rule after it becomes dead code.
 commit_parsers = [
     { message = "^feat", group = "<!-- 0 -->🚀 Features" },
     { message = "^fix", group = "<!-- 1 -->🐛 Bug Fixes" },
@@ -72,13 +78,12 @@ commit_parsers = [
     { message = "^chore\\(deps.*\\)", skip = true },
     { message = "^chore\\(pr\\)", skip = true },
     { message = "^chore\\(pull\\)", skip = true },
+    { message = "^bump:\\s*version\\s+\\d+\\.\\d+\\.\\d+\\s*→\\s*\\d+\\.\\d+\\.\\d+", skip = true },
+    { message = "^chore:\\s*Release\\s+.*", skip = true },
     { message = "^chore|^ci", group = "<!-- 7 -->⚙️ Miscellaneous Tasks" },
     { body = ".*security", group = "<!-- 8 -->🛡️ Security" },
     { message = "^revert", group = "<!-- 9 -->◀️ Revert" },
     { message = ".*", group = "<!-- 10 -->💼 Other" },
-
-    { message = "^chore\\(changelog\\):", skip = true },
-    { message = "^bump:\\s*version\\s+\\d+\\.\\d+\\.\\d+\\s*→\\s*\\d+\\.\\d+\\.\\d+", skip = true },
 ]
 # Exclude commits that are not matched by any commit parser.
 filter_commits = false
