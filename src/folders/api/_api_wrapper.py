@@ -1,3 +1,29 @@
+"""
+AsyncApiWrapper: clase base abstracta para clientes de API asíncronos.
+
+Provee manejo de sesión HTTP (via httpx2.AsyncClient), conteo de requests,
+y métodos de conveniencia (GET/POST/PATCH/DELETE).
+
+Uso (siempre como context manager):
+
+    class MyApiClient(AsyncApiWrapper):
+        BASE_URL = "https://api.example.com"
+
+        def __init__(self, api_key: str, timeout: float = 30.0, logger=None):
+            super().__init__(api_key, timeout, logger)
+            self.headers = {"authorization": api_key}
+
+    async def main():
+        async with MyApiClient(api_key="...") as client:
+            response = await client.GET("/users", params={"limit": 10})
+            data = response.json()
+
+Notas para subclases:
+    - BASE_URL es obligatorio: debe definirse como atributo de clase.
+    - self.headers debe setearse en __init__ de la subclase (llamando a
+      super().__init__() primero) antes de usar el cliente.
+"""
+
 import logging
 from abc import ABC
 from typing import Any, Optional
@@ -21,7 +47,6 @@ class AsyncApiWrapper(ABC):
         self._client: Optional[httpx2.AsyncClient]
         self.logger = ensure_logger(logger)
         self.api_calls = 0
-
         # Implementation for child classes:
         # super().__init__(api_key, timeout, logger)
         # self.headers = {"authorization": api_key}
@@ -61,16 +86,11 @@ class AsyncApiWrapper(ABC):
         json: dict[str, Any] | None = None,
     ) -> httpx2.Response:
         client = await self._get_client()
-        try:
-            response = await client.request(method, endpoint, params=params, json=json)
-            self.api_calls += 1
-            self.logger.debug(f"Api calls: {self.api_calls}")
-            response.raise_for_status()
-            return response
-        except httpx2.HTTPStatusError as e:
-            raise Exception(f"HTTP {e.response.status_code}: {e.response.text}") from e
-        except httpx2.RequestError as e:
-            raise Exception(f"Request failed: {str(e)}") from e
+        response = await client.request(method, endpoint, params=params, json=json)
+        self.api_calls += 1
+        self.logger.debug(f"Api calls: {self.api_calls}")
+        response.raise_for_status()
+        return response
 
     async def GET(
         self, endpoint: str, params: dict[str, Any] | None = None
