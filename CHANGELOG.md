@@ -1,3 +1,13 @@
+## [0.8.2] - 2026-07-12
+
+### 🐛 Bug Fixes
+
+- **(init)** Fixes cliff.toml to properly skip version bumps
+
+### ⚙️ Miscellaneous Tasks
+
+- Regenerate changelog with proper urls and skipping release bumps
+
 ## [0.8.1] - 2026-07-12
 
 ### 🐛 Bug Fixes
