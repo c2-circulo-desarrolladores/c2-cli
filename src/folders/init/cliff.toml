@@ -16,7 +16,8 @@ body = """
     {% for commit in commits %}
         - {% if commit.scope %}**({{ commit.scope }})** {% endif %}\
             {% if commit.breaking %}[**breaking**] {% endif %}\
-            {{ commit.message | upper_first }}\
+            {{ commit.message | upper_first }} \
+            ([{{ commit.id | truncate(length=7, ellipsis="") }}](https://github.com/<OWNER>/<REPO>/commit/{{ commit.id }}))\
     {% endfor %}
 {% endfor %}
 
@@ -27,8 +28,9 @@ trim = true
 render_always = true
 # An array of regex based postprocessors to modify the changelog.
 postprocessors = [
-    # Replace the placeholder <REPO> with a URL.
-    #{ pattern = '<REPO>', replace = "https://github.com/orhun/git-cliff" },
+    # Wrap anything inside <...> in backticks so markdown renderers don't
+    # swallow it as an unknown HTML tag (e.g. <REPO>, <OWNER>, <PATH>, etc.).
+    { pattern = '<([^>]+)>', replace = "`<${1}>`" },
 ]
 # render body even when there are no releases to process
 # render_always = true
@@ -51,7 +53,10 @@ commit_preprocessors = [
     # Replace issue numbers with FULL absolute link templates (must be absolute,
     # not relative — a relative link here gets resolved by GitHub against the
     # current file path, e.g. /blob/main/, producing a broken URL).
-    { pattern = '\((\w+\s)?#([0-9]+)\)', replace = "([#${2}](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/${2}))"},
+    # Captures any prefix text before #number (e.g. "closes #35",
+    # "relates to #35", or just "#35") and preserves it, only linkifying
+    # the #number part.
+    { pattern = '\(([^#\)]*)#([0-9]+)\)', replace = "(${1}[#${2}](https://github.com/<OWNER>/<REPO>/issues/${2}))" },
     # Check spelling of the commit message using https://github.com/crate-ci/typos.
     # If the spelling is incorrect, it will be fixed automatically.
     #{ pattern = '.*', replace_command = 'typos --write-changes -' },
