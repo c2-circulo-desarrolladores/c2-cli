@@ -3,3 +3,5 @@ set shell := ["powershell.exe", "-Command"] # Windows
 
 test:
     uv run pytest
+    # uv run --python 3.10 pytest
+    

@@ -1,10 +1,10 @@
 use crate::core::Deployable;
 use crate::io::file_parser::FileParser;
 
-pub struct Init {
+pub struct InitR {
     pub owner: Option<String>,
 }
-impl Init {
+impl InitR {
     fn dir_name(&self) -> String {
         return self
             .user_wd()
@@ -18,8 +18,8 @@ impl Init {
         return self.dir_name().replace("-", "_");
     }
 
-    fn write_to_pyproject(&self) -> std::io::Result<()> {
-        let mut pyproject_parser = FileParser::from(self.user_wd().join("pyproject.toml"))?;
+    fn write_to_description(&self) -> std::io::Result<()> {
+        let mut pyproject_parser = FileParser::from(self.user_wd().join("DESCRIPTION"))?;
         let package_name = self.package_name();
         let hatchling_block = format!(
             r#"
@@ -86,7 +86,7 @@ tag_format = "v$version""#
     }
 }
 
-impl Deployable for Init {
+impl Deployable for InitR {
     fn name(&self) -> &str {
         "init"
     }
@@ -99,13 +99,13 @@ impl Deployable for Init {
             .to_string_lossy()
             .into_owned();
         let folders = format!("src/{dir_name}");
-        self.cmd().init()?;
+        self.cmd().init_r()?;
         self.import_files()?;
-        self.write_to_pyproject()?;
+        self.write_to_description()?;
         self.write_to_cliff()?;
         self.cmd().execute("mkdir", &[&folders])?;
         self.cmd().execute("mkdir", &[&"tests"])?;
-        println!("✓ Initialized project with .gitignore, cliff.toml, justfile and .github/");
+        println!("✓ Initialized project with");
         Ok(())
     }
 }

@@ -8,6 +8,7 @@ repository = "https://github.com/c2-circulo-desarrolladores/c2-cli"
 
 [dependencies]
 clap = { version = "4.5.58", features = ["derive"]}
+include_dir = "0.7.4"
 
 [[bin]]
 name = "c2"
