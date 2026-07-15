@@ -1,4 +1,4 @@
-use c2_cli::deployables::Deployable;
+use c2_cli::core::Deployable;
 use c2_cli::deployables::executables::{Format, Release};
 use c2_cli::deployables::importables::{Api, Logger, Timer};
 use c2_cli::deployables::init::Init;
