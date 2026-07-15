@@ -1,4 +1,4 @@
-use crate::deployables::base::Deployable;
+use crate::core::Deployable;
 
 pub struct Release {}
 impl Deployable for Release {
@@ -7,7 +7,7 @@ impl Deployable for Release {
     }
 
     fn deploy(&self) -> std::io::Result<()> {
-        self.execute_just("release")?;
+        self.cmd().release()?;
         Ok(())
     }
 }
@@ -19,7 +19,7 @@ impl Deployable for Format {
     }
 
     fn deploy(&self) -> std::io::Result<()> {
-        self.execute_just("format-py")?;
+        self.cmd().format_py()?;
         Ok(())
     }
 }

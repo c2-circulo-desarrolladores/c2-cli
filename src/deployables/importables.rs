@@ -1,4 +1,4 @@
-use crate::deployables::Deployable;
+use crate::core::Deployable;
 
 pub struct Timer {}
 impl Deployable for Timer {

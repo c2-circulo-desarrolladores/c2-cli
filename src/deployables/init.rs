@@ -1,4 +1,4 @@
-use crate::deployables::base::Deployable;
+use crate::core::Deployable;
 use crate::io::file_parser::FileParser;
 
 pub struct Init {
@@ -99,12 +99,12 @@ impl Deployable for Init {
             .to_string_lossy()
             .into_owned();
         let folders = format!("src/{dir_name}");
-        self.execute_just("init")?;
+        self.cmd().init()?;
         self.import_files()?;
         self.write_to_pyproject()?;
         self.write_to_cliff()?;
-        self.execute_just_with("mkdir", &[&folders])?;
-        self.execute_just_with("mkdir", &[&"tests"])?;
+        self.cmd().execute("mkdir", &[&folders])?;
+        self.cmd().execute("mkdir", &[&"tests"])?;
         println!("✓ Initialized project with .gitignore, cliff.toml, justfile and .github/");
         Ok(())
     }
