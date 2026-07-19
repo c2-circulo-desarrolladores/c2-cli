@@ -1,3 +1,5 @@
+use std::fs;
+
 use crate::core::Deployable;
 use crate::io::file_parser::FileParser;
 
@@ -18,70 +20,61 @@ impl Init {
         return self.dir_name().replace("-", "_");
     }
 
-    fn write_to_pyproject(&self) -> std::io::Result<()> {
+    fn replace_in_pyproject(&self) -> std::io::Result<()> {
         let mut pyproject_parser = FileParser::from(self.user_wd().join("pyproject.toml"))?;
-        let package_name = self.package_name();
-        let hatchling_block = format!(
-            r#"
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+        let mut new_content = pyproject_parser
+            .contents
+            .replace("<REPO>", &self.dir_name())
+            .replace("<PACKAGE>", &self.package_name());
 
-[tool.hatch.build.targets.wheel]
-packages = ["src/{package_name}"]
-"#,
+        if let Some(owner) = &self.owner {
+            new_content = new_content.replace("<OWNER>", owner);
+            println!("✓ Replaced '<OWNER>' with {} in pyproject.toml", owner)
+        }
+
+        pyproject_parser.replace_content(new_content)?;
+        println!(
+            "✓ Replace '<REPO>' with {} in pyproject.toml",
+            &self.dir_name()
         );
-        pyproject_parser.append_to_file(&hatchling_block)?;
-        println!("✓ Written 'hatchling' block to pyproject.toml");
-
-        let ruff_block = r#"
-[tool.ruff.lint]
-select = ["F", "I", "E"]
-ignore = ["E501"]
-"#;
-        pyproject_parser.append_to_file(&ruff_block)?;
-        println!("✓ Written 'ruff' block to pyproject.toml");
-
-        let version_line = pyproject_parser.get_lines("version =");
-        let version_str = version_line
-            .iter()
-            .next()
-            .expect("No version found in pyproject.toml")
-            .split('"')
-            .nth(1)
-            .unwrap();
-        let commitizen_block = format!(
-            r#"
-[tool.commitizen]
-name = "cz_conventional_commits"
-version = "{version_str}"
-version_files = ["pyproject.toml:version"]
-tag_format = "v$version""#
-        );
-        pyproject_parser.append_to_file(&commitizen_block)?;
-        println!("✓ Written 'commitizen' block to pyproject.toml");
 
         Ok(())
     }
 
-    fn write_to_cliff(&self) -> std::io::Result<()> {
+    fn replace_in_cliff(&self) -> std::io::Result<()> {
         let mut cliff_parser = FileParser::from(self.user_wd().join("cliff.toml"))?;
         let mut new_content = cliff_parser.contents.replace("<REPO>", &self.dir_name());
 
-        let mut placeholder = "";
         if let Some(owner) = &self.owner {
             new_content = new_content.replace("<OWNER>", owner);
-            placeholder = "and <OWNER>";
+            println!("✓ Replaced '<OWNER>' with {} in cliff.toml", owner)
         }
 
         cliff_parser.replace_content(new_content)?;
 
         println!(
-            "✓ Replaced '<REPO>' {} in cliff.toml with {}",
-            placeholder,
+            "✓ Replaced '<REPO>' with {} in cliff.toml",
             &self.dir_name()
         );
 
+        Ok(())
+    }
+
+    fn create_embedded_folders(&self) -> std::io::Result<()> {
+        let dir_name = self
+            .user_wd()
+            .file_name()
+            .unwrap()
+            .to_string_lossy()
+            .into_owned()
+            .replace("-", "_");
+        let folders = format!("src/{dir_name}");
+        let package_folder = self.user_wd().join(folders);
+        fs::create_dir_all(&package_folder)?;
+        fs::create_dir(self.user_wd().join("tests"))?;
+
+        let init_py_path = package_folder.join("__init__.py");
+        fs::write(init_py_path, b"")?;
         Ok(())
     }
 }
@@ -92,19 +85,12 @@ impl Deployable for Init {
     }
 
     fn deploy(&self) -> std::io::Result<()> {
-        let dir_name = self
-            .user_wd()
-            .file_name()
-            .unwrap()
-            .to_string_lossy()
-            .into_owned();
-        let folders = format!("src/{dir_name}");
-        self.cmd().init()?;
+        self.cmd().execute("git", &["init"])?;
         self.import_files()?;
-        self.write_to_pyproject()?;
-        self.write_to_cliff()?;
-        self.cmd().execute("mkdir", &[&folders])?;
-        self.cmd().execute("mkdir", &[&"tests"])?;
+        self.replace_in_pyproject()?;
+        self.replace_in_cliff()?;
+        self.cmd().init()?;
+        self.create_embedded_folders()?;
         println!("✓ Initialized project with .gitignore, cliff.toml, justfile and .github/");
         Ok(())
     }

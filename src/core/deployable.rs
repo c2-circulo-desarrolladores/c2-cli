@@ -1,7 +1,4 @@
-use std::{
-    fs,
-    path::PathBuf,
-};
+use std::{fs, path::PathBuf};
 
 use crate::core::Commander;
 use include_dir::{Dir, include_dir};
@@ -25,7 +22,8 @@ pub trait Deployable {
 
     fn import_files(&self) -> std::io::Result<()> {
         for file in self.folder().files() {
-            let dest = self.user_wd().join(file.path());
+            let relative_path = file.path().strip_prefix(self.name()).unwrap();
+            let dest = self.user_wd().join(relative_path);
             if let Some(parent) = dest.parent() {
                 fs::create_dir_all(parent)?;
             }
