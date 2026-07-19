@@ -22,26 +22,6 @@
 - Adds include_dir dependency ([8ed2cba…](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/8ed2cba932de04e2fd4ae21d270a41e4293a81ae))
 - Deletes unused files and updates main modules ([f0dd983…](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/f0dd9838160e5e61ec4d4561b71a7a9e9c8c22dc))
 
-## [unreleased]
-
-### 🚀 Features
-
-- **(init)** Modifies body in cliff.toml to show commit hash and hyperlink in changelog ([8921dc2…](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/8921dc24fcc2bb318ce734a27f95f836494f07c5))
-- **(init)** Cliff.toml Captures any prefix text before #number (closes o relates) and adds backticks to text inside <> ([1128a51…](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/1128a51f9924a14d335da8f87abdc7e3a7f51039))
-- **(init)** Removes .vscode folder as functionality is enforced by pre-commit ([7ec1f14…](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/7ec1f14206e5b395472085b81e15d9b10e0a19a8))
-- **(init-r)** Adds new draft command init-r (not tested) (closes [#48](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/48)) ([867bc92…](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/867bc929368d90852b988e49da5530f2bfa0f5ca))
-- **(init)** Init includes test workflow ([8d6b078…](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/8d6b07881186d3281a9191963c91a5f075ccbea5))
-
-### 🚜 Refactor
-
-- Separates into deployable and executable traits (closes [#27](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/27)) ([6fc751b…](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/6fc751b557bb0c95eaa03128a304f17a8cbebc81))
-- Deployables use new traits ([6228a45…](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/6228a457796e48834df8f8e61637b6f1d433c1cb))
-
-### ⚙️ Miscellaneous Tasks
-
-- Adds include_dir dependency ([8ed2cba…](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/8ed2cba932de04e2fd4ae21d270a41e4293a81ae))
-- Deletes unused files and updates main modules ([f0dd983…](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/f0dd9838160e5e61ec4d4561b71a7a9e9c8c22dc))
-
 ## [0.8.3] - 2026-07-12
 
 ### 🐛 Bug Fixes
