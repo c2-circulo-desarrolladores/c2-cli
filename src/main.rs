@@ -1,7 +1,8 @@
+use c2_cli::core::Config;
 use c2_cli::core::Deployable;
 use c2_cli::deployables::executables::{Format, Release};
 use c2_cli::deployables::importables::{Api, Logger, Timer};
-use c2_cli::deployables::init::Init;
+use c2_cli::deployables::init::Init; // ajustá el path según dónde lo pongas
 
 use clap::{Parser, Subcommand, ValueEnum};
 
@@ -34,6 +35,17 @@ enum Commands {
 
     /// Full release: bump version, generate changelog, commit, tag and push
     Release,
+
+    /// Get or set persistent CLI configuration (e.g. default owner)
+    Config {
+        /// Set the default GitHub owner/org
+        #[arg(long)]
+        owner: Option<String>,
+
+        /// Print the current config
+        #[arg(long)]
+        show: bool,
+    },
 }
 
 #[derive(ValueEnum, Clone)]
@@ -43,11 +55,16 @@ enum ImportTarget {
     Api,
 }
 
-fn main() -> std::io::Result<()> {
+fn main() -> anyhow::Result<()> {
     let cli = CLI::parse();
 
     match cli.command {
         Commands::Init { owner } => {
+            // Si no pasan --owner, cae al del config guardado
+            let owner = match owner {
+                Some(o) => Some(o),
+                None => Config::load()?.owner,
+            };
             Init { owner }.deploy()?;
         }
 
@@ -63,6 +80,20 @@ fn main() -> std::io::Result<()> {
 
         Commands::Release => {
             Release {}.deploy()?;
+        }
+
+        Commands::Config { owner, show } => {
+            let mut config = Config::load()?;
+
+            if let Some(o) = owner {
+                config.owner = Some(o);
+                config.save()?;
+                println!("Owner guardado: {}", config.owner.as_ref().unwrap());
+            }
+
+            if show || config.owner.is_none() {
+                println!("{:#?}", config);
+            }
         }
     }
 

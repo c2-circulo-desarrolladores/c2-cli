@@ -1,8 +1,4 @@
-use std::{
-    io,
-    path::PathBuf,
-    process::Command,
-};
+use std::{io, path::PathBuf, process::Command};
 
 pub struct Commander {
     cwd: PathBuf,
@@ -14,6 +10,9 @@ impl Commander {
     }
 
     pub fn execute(&self, program: &str, args: &[&str]) -> io::Result<()> {
+        let full_command = format!("{} {}", program, args.join(" "));
+        println!("\x1b[32m====> Running:\x1b[0m {}", full_command);
+        
         let status = Command::new(&program)
             .current_dir(&self.cwd)
             .args(args)
@@ -30,12 +29,7 @@ impl Commander {
     // -------------------------------------------------------------------------
 
     pub fn init(&self) -> io::Result<()> {
-        self.execute("git", &["init"])?;
-        self.execute("uv", &["init"])?;
-        self.execute(
-            "uv",
-            &["add", "--dev", "ruff", "pre-commit", "git-cliff", "pytest"],
-        )?;
+        self.execute("uv", &["sync"])?;
         self.execute("uv", &["run", "pre-commit", "install"])?;
 
         Ok(())
