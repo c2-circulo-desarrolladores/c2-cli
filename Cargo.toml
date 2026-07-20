@@ -7,8 +7,12 @@ license = "MIT"
 repository = "https://github.com/c2-circulo-desarrolladores/c2-cli"
 
 [dependencies]
+anyhow = "1.0.104"
 clap = { version = "4.5.58", features = ["derive"]}
+directories = "6.0.0"
 include_dir = "0.7.4"
+serde = { version = "1.0.229", features = ["derive"] }
+toml = "1.1.3"
 
 [[bin]]
 name = "c2"
