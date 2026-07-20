@@ -1,3 +1,25 @@
+## [0.10.0] - 2026-07-20
+
+### 🚀 Features
+
+- **(config)** Add persitent user configuration with crate directories (closes [#40](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/40)) ([98a6ed1…](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/98a6ed1b94acdc6f9364d33db992c77d42d1015b))
+
+### 🚜 Refactor
+
+- **(init)** Use a pyproject.toml template and uv sync instead of uv init (closes [#50](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/50)); converts mkdir to rust code (closes [#39](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/39)) ([e2a4e8b…](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/e2a4e8bbd225021927c236415cba237a90cc2d74))
+
+### 📚 Documentation
+
+- Adds config command to README.md ([e8a9f57…](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/e8a9f574b6f0be20b3b54182a3f249a84cae7fc7))
+
+### 🎨 Styling
+
+- Improves printl format in terminal (closes [#7](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/7)) ([be1172c…](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/be1172c379568478f419a32737b60523bda43a1f))
+
+### ⚙️ Miscellaneous Tasks
+
+- Fixes changelog ([ac5e1a2…](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/ac5e1a26648c2783375055d759223fdc22e6fea1))
+
 ## [0.9.0] - 2026-07-15
 
 ### 🚀 Features
