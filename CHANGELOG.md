@@ -1,3 +1,13 @@
+## [0.10.1] - 2026-07-20
+
+### 🐛 Bug Fixes
+
+- **(init)** Removes hash from changelog output
+
+### 📚 Documentation
+
+- Regenerates CHANGELOG.md without commit hashes
+
 ## [unreleased]
 
 ### 🐛 Bug Fixes
