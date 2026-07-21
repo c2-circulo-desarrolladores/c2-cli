@@ -1,3 +1,13 @@
+## [0.10.2] - 2026-07-21
+
+### 🚜 Refactor
+
+- **(release)** Updates changelog before bumping version
+
+### ⚙️ Miscellaneous Tasks
+
+- Fixes changelog output
+
 ## [0.10.1] - 2026-07-20
 
 ### 🐛 Bug Fixes
