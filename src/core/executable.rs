@@ -12,7 +12,7 @@ impl Commander {
     pub fn execute(&self, program: &str, args: &[&str]) -> io::Result<()> {
         let full_command = format!("{} {}", program, args.join(" "));
         println!("\x1b[32m====> Running:\x1b[0m {}", full_command);
-        
+
         let status = Command::new(&program)
             .current_dir(&self.cwd)
             .args(args)
@@ -22,6 +22,11 @@ impl Commander {
             std::process::exit(status.code().unwrap_or(1));
         }
         Ok(())
+    }
+
+    pub fn execute_with_output(&self, program: &str, args: &[&str]) -> io::Result<String> {
+        let out = Command::new(&program).args(args).output()?;
+        Ok(String::from_utf8_lossy(&out.stdout).trim().to_string())
     }
 
     // -------------------------------------------------------------------------
@@ -57,16 +62,29 @@ impl Commander {
     }
 
     pub fn release(&self) -> io::Result<()> {
-        self.execute("uv", &["run", "cz", "bump"])?;
-        self.execute("uv", &["run", "git-cliff", "-o", "CHANGELOG.md"])?;
+        let next_version = self.execute_with_output("uv", &["run", "cz", "bump", "--get-next"])?;
+
+        self.execute(
+            "uv",
+            &[
+                "run",
+                "git-cliff",
+                "--unreleased",
+                "--tag",
+                &next_version,
+                "--prepend",
+                "CHANGELOG.md",
+            ],
+        )?;
         self.execute("git", &["add", "CHANGELOG.md"])?;
         self.execute(
             "git",
             &["commit", "-m", "chore(changelog): update changelog"],
         )?;
+
+        self.execute("uv", &["run", "cz", "bump"])?;
         self.execute("git", &["push", "origin", "main"])?;
         self.execute("git", &["push", "origin", "--tags"])?;
-
         Ok(())
     }
 
