@@ -8,12 +8,6 @@
 
 - Regenerates CHANGELOG.md without commit hashes
 
-## [unreleased]
-
-### 🐛 Bug Fixes
-
-- **(init)** Removes hash from changelog output
-
 ## [0.10.0] - 2026-07-20
 
 ### 🚀 Features
