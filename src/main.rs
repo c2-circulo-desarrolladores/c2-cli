@@ -1,8 +1,6 @@
 use c2_cli::core::Config;
 use c2_cli::core::Deployable;
-use c2_cli::deployables::executables::{Format, Release};
-use c2_cli::deployables::importables::{Api, Logger, Timer};
-use c2_cli::deployables::init::Init; // ajustá el path según dónde lo pongas
+use c2_cli::deployables::{Api, FixInits, Format, Init, Logger, Release, Timer};
 
 use clap::{Parser, Subcommand, ValueEnum};
 
@@ -26,17 +24,21 @@ enum Commands {
         owner: Option<String>,
     },
 
+    /// Regenerates '__all__' variable inside '__init__.py' files
+    #[command(name = "fix-inits")]
+    FixInits {},
+
     /// Copies a reusable module into the current project (timer, logger, api...)
     Import { target: ImportTarget },
 
-    /// Calls ruff, isort and autoflake to format Python code
+    /// Calls ruff to format Python code
     #[command(name = "format")]
     Format,
 
     /// Full release: bump version, generate changelog, commit, tag and push
     Release,
 
-    /// Get or set persistent CLI configuration (e.g. default owner)
+    /// Set persistent CLI configuration (e.g. default owner)
     Config {
         /// Set the default GitHub owner/org
         #[arg(long)]
@@ -73,6 +75,10 @@ fn main() -> anyhow::Result<()> {
             ImportTarget::Logger => Logger {}.deploy()?,
             ImportTarget::Api => Api {}.deploy()?,
         },
+
+        Commands::FixInits {} => {
+            FixInits {}.deploy()?;
+        }
 
         Commands::Format => {
             Format {}.deploy()?;
