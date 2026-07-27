@@ -1,7 +1,7 @@
 use std::{fs, path::PathBuf};
 
 use crate::core::Commander;
-use include_dir::{Dir, include_dir};
+use include_dir::{Dir, DirEntry, include_dir};
 
 pub static FOLDERS: Dir<'_> = include_dir!("$CARGO_MANIFEST_DIR/src/folders");
 
@@ -21,13 +21,24 @@ pub trait Deployable {
     }
 
     fn import_files(&self) -> std::io::Result<()> {
-        for file in self.folder().files() {
-            let relative_path = file.path().strip_prefix(self.name()).unwrap();
-            let dest = self.user_wd().join(relative_path);
-            if let Some(parent) = dest.parent() {
-                fs::create_dir_all(parent)?;
+        self.import_dir_recursive(self.folder())
+    }
+
+    fn import_dir_recursive(&self, dir: &Dir<'static>) -> std::io::Result<()> {
+        for entry in dir.entries() {
+            match entry {
+                DirEntry::File(file) => {
+                    let relative_path = file.path().strip_prefix(self.name()).unwrap();
+                    let dest = self.user_wd().join(relative_path);
+                    if let Some(parent) = dest.parent() {
+                        fs::create_dir_all(parent)?;
+                    }
+                    fs::write(dest, file.contents())?;
+                }
+                DirEntry::Dir(subdir) => {
+                    self.import_dir_recursive(subdir)?;
+                }
             }
-            fs::write(dest, file.contents())?;
         }
         Ok(())
     }
