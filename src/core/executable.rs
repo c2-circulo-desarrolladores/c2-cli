@@ -4,6 +4,15 @@ pub struct Commander {
     cwd: PathBuf,
 }
 
+fn parse_next_version(output: &str) -> Option<String> {
+    output.lines().find_map(|line| {
+        let line = line.trim();
+        line.strip_prefix("New version will be '")
+            .and_then(|rest| rest.strip_suffix('\''))
+            .map(|s| s.to_string())
+    })
+}
+
 impl Commander {
     pub fn new(cwd: impl Into<PathBuf>) -> Self {
         Self { cwd: cwd.into() }
@@ -61,9 +70,24 @@ impl Commander {
         Ok(())
     }
 
-    pub fn release(&self) -> io::Result<()> {
-        let next_version = self.execute_with_output("uv", &["run", "cz", "bump", "--get-next"])?;
+    pub fn release(&self, part: &str) -> io::Result<()> {
+        // 1. Previsualizar próxima versión (dry-run, no toca nada)
+        let dry_run_output = self.execute_with_output(
+            "uv",
+            &[
+                "run",
+                "bump-my-version",
+                "bump",
+                "--dry-run",
+                "--verbose",
+                "--allow-dirty",
+                part,
+            ],
+        )?;
+        let next_version = parse_next_version(&dry_run_output)
+            .expect("no se pudo extraer la próxima versión del output de bump-my-version");
 
+        // 2. Generar changelog con esa versión
         self.execute(
             "uv",
             &[
@@ -82,7 +106,7 @@ impl Commander {
             &["commit", "-m", "chore(changelog): update changelog"],
         )?;
 
-        self.execute("uv", &["run", "cz", "bump"])?;
+        self.execute("uv", &["run", "bump-my-version", "bump", part])?;
         self.execute("git", &["push", "origin", "main"])?;
         self.execute("git", &["push", "origin", "--tags"])?;
         Ok(())
