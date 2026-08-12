@@ -87,7 +87,7 @@ fn main() -> anyhow::Result<()> {
             Format {}.deploy()?;
         }
 
-        Commands::Release { part }=> {
+        Commands::Release { part } => {
             Release { part }.deploy()?;
         }
 
