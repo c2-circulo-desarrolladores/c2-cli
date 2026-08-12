@@ -21,6 +21,7 @@ impl Version {
 pub struct Release {
     pub part: Version,
 }
+
 impl Deployable for Release {
     fn name(&self) -> &str {
         "release"
@@ -28,18 +29,6 @@ impl Deployable for Release {
 
     fn deploy(&self) -> std::io::Result<()> {
         self.cmd().release(&self.part.as_str())?;
-        Ok(())
-    }
-}
-
-pub struct Format {}
-impl Deployable for Format {
-    fn name(&self) -> &str {
-        "format"
-    }
-
-    fn deploy(&self) -> std::io::Result<()> {
-        self.cmd().format_py()?;
         Ok(())
     }
 }
