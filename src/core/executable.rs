@@ -89,6 +89,8 @@ impl Commander {
     }
 
     pub fn format_py(&self) -> io::Result<()> {
-        self.execute("uv", &["run", "ruff", "check", "--fix", "."])
+        self.execute("uv", &["run", "ruff", "check", "--fix", "."])?;
+        self.execute("uv", &["run", "ruff", "format", "."])?;
+        Ok(())
     }
 }
