@@ -74,7 +74,7 @@ impl Init {
         fs::create_dir(self.user_wd().join("tests"))?;
 
         let init_py_path = package_folder.join("__init__.py");
-        fs::write(init_py_path, b"")?;
+        fs::write(init_py_path, b"__version__ = \"0.1.0\"\n")?;
         Ok(())
     }
 }
