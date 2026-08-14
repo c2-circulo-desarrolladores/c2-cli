@@ -42,24 +42,6 @@ ignore = ["E501"]
         pyproject_parser.append_to_file(&ruff_block)?;
         println!("✓ Written 'ruff' block to pyproject.toml");
 
-        let version_line = pyproject_parser.get_lines("version =");
-        let version_str = version_line
-            .iter()
-            .next()
-            .expect("No version found in pyproject.toml")
-            .split('"')
-            .nth(1)
-            .unwrap();
-        let commitizen_block = format!(
-            r#"
-[tool.commitizen]
-name = "cz_conventional_commits"
-version = "{version_str}"
-version_files = ["pyproject.toml:version"]
-tag_format = "v$version""#
-        );
-        pyproject_parser.append_to_file(&commitizen_block)?;
-        println!("✓ Written 'commitizen' block to pyproject.toml");
 
         Ok(())
     }
