@@ -1,3 +1,30 @@
+## [0.11.0] - 2026-08-14
+
+### 🚀 Features
+
+- **(init)** Adds both format and lint check to ruff_check workflow - ([7810750](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/7810750fd381069da782e4da6ed15bb18c05fcad))
+- **(init)** Updates pre-commit configuration adding ruff format - ([b539574](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/b53957451aab14fd72481e8912855a7035259e8b))
+- **(fix-inits)** Adds first draft for fix-inits ([#12](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/12)) - ([d18d442](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/d18d442da0d756b8d691cf724b9793d4f1bd665a))
+- **(polars)** Adds first draft for new command import polars - ([4742f09](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/4742f09171e15b0c9d4f122dd47efe95a99c51e8))
+- **(format)** Adds 'uv run ruff format .' command to run formatter as well - ([6fb8525](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/6fb85252f3db2f7e54f79ff03f3f7f656fdee931))
+- **(init)** Writes 'tool.bump-my-version' to pyproject.toml ([#60](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/60)) - ([4d2dfe2](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/4d2dfe21fd5f0b8b01d085d49c43e62e6a743de1))
+- **(release)** Uses bump-my-version instead of commitizen to handle parsing and bumping ([#60](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/60)) - ([2b90b57](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/2b90b57861def6cbd755d57efee6008d26ce32ee))
+- **(init)** Writes '__version__' block to init.py when initializing - ([3e1971d](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/3e1971db71578b5992e9eb03526489317c771558))
+- **(init)** Changelog now adds commit hash for each commit; fixes hardcoded REPO and OWNER variables - ([44b47aa](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/44b47aa5c16e66df7e8e021bd7ff80f4c76efe05))
+
+### 🐛 Bug Fixes
+
+- **(io)** Fixes issue with directories not being imported - ([e56c4d5](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/e56c4d5df2917f7fcace69f126969262420bbed1))
+- **(release)** Fixes typo in main.rs - ([2168640](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/21686407cd6403222b3a38019127d05c105910c8))
+
+### 🚜 Refactor
+
+- Move deployables to their own modules; deletes unused files - ([8fbce22](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/8fbce22dd8540ceb0ca1f2bc0afb7012f308f19e))
+
+### ⚙️ Miscellaneous Tasks
+
+- Adds walkdir as dependency - ([1c5e059](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/1c5e059ae51ec2a5fd6b8079e110c8769bc52ca9))
+
 ## [0.10.2] - 2026-07-21
 
 ### 🚜 Refactor
