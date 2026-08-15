@@ -1,6 +1,6 @@
 use c2_cli::core::Config;
 use c2_cli::core::Deployable;
-use c2_cli::deployables::{Api, Doc, FixInits, Format, Init, Logger, Release, Timer, Version};
+use c2_cli::deployables::{Api, FixInits, Format, Init, Logger, Release, Timer, Version};
 
 use clap::{Parser, Subcommand, ValueEnum};
 
@@ -51,13 +51,6 @@ enum Commands {
         #[arg(long)]
         show: bool,
     },
-
-    /// Hi
-    Doc {
-        /// GitHub owner/org used to fill '<OWNER>' in cliff.toml (optional)
-        #[arg(long)]
-        owner: Option<String>,
-    },
 }
 
 #[derive(ValueEnum, Clone)]
@@ -96,14 +89,6 @@ fn main() -> anyhow::Result<()> {
 
         Commands::Release { part } => {
             Release { part }.deploy()?;
-        }
-
-        Commands::Doc { owner } => {
-            let owner = match owner {
-                Some(o) => Some(o),
-                None => Config::load()?.owner,
-            };
-            Doc { owner }.deploy()?;
         }
 
         Commands::Config { owner, show } => {
