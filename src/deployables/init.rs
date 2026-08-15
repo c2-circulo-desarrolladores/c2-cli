@@ -7,24 +7,11 @@ pub struct Init {
     pub owner: Option<String>,
 }
 impl Init {
-    fn dir_name(&self) -> String {
-        return self
-            .user_wd()
-            .file_name()
-            .unwrap()
-            .to_string_lossy()
-            .to_string();
-    }
-
-    fn package_name(&self) -> String {
-        return self.dir_name().replace("-", "_");
-    }
-
     fn replace_in_pyproject(&self) -> std::io::Result<()> {
         let mut pyproject_parser = FileParser::from(self.user_wd().join("pyproject.toml"))?;
         let mut new_content = pyproject_parser
             .contents
-            .replace("<REPO>", &self.dir_name())
+            .replace("<REPO>", &self.repo_name())
             .replace("<PACKAGE>", &self.package_name());
 
         if let Some(owner) = &self.owner {
@@ -35,7 +22,7 @@ impl Init {
         pyproject_parser.replace_content(new_content)?;
         println!(
             "✓ Replace '<REPO>' with {} in pyproject.toml",
-            &self.dir_name()
+            &self.repo_name()
         );
 
         Ok(())
@@ -43,7 +30,7 @@ impl Init {
 
     fn replace_in_cliff(&self) -> std::io::Result<()> {
         let mut cliff_parser = FileParser::from(self.user_wd().join("cliff.toml"))?;
-        let mut new_content = cliff_parser.contents.replace("<REPO>", &self.dir_name());
+        let mut new_content = cliff_parser.contents.replace("<REPO>", &self.repo_name());
 
         if let Some(owner) = &self.owner {
             new_content = new_content.replace("<OWNER>", owner);
@@ -54,7 +41,7 @@ impl Init {
 
         println!(
             "✓ Replaced '<REPO>' with {} in cliff.toml",
-            &self.dir_name()
+            &self.repo_name()
         );
 
         Ok(())
