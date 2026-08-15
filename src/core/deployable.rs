@@ -20,6 +20,19 @@ pub trait Deployable {
         FOLDERS.get_dir(self.name()).expect("Folder not found")
     }
 
+    fn repo_name(&self) -> String {
+        return self
+            .user_wd()
+            .file_name()
+            .unwrap()
+            .to_string_lossy()
+            .to_string();
+    }
+
+    fn package_name(&self) -> String {
+        return self.repo_name().replace("-", "_");
+    }
+
     fn import_files(&self) -> std::io::Result<()> {
         self.import_dir_recursive(self.folder())
     }
