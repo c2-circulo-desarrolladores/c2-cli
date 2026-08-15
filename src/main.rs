@@ -51,6 +51,13 @@ enum Commands {
         #[arg(long)]
         show: bool,
     },
+
+    /// Generates project documentation using MkDocs (mkdocs.yml, templates, etc.)
+    Doc {
+        /// GitHub owner/org used to fill '<OWNER>' in cliff.toml (optional)
+        #[arg(long)]
+        owner: Option<String>,
+    },
 }
 
 #[derive(ValueEnum, Clone)]
