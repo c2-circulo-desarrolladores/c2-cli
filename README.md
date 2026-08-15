@@ -10,10 +10,9 @@ c2 <COMMAND>
 
 | Comando | Descripción |
 |--------|-------------|
-| `init` | Inicializa un proyecto Python corriendo `'uv init'` y agrega `.gitignore`, `cliff.toml`, `justfile` y `.github/` |
+| `init` | Inicializa un proyecto Python corriendo `'uv init'` y agrega `.gitignore`, `justfile` y `.github/` |
 | `config` | Configura valores persistentes del CLI (ej. `owner` por defecto) |
 | `release` | Release completo: aumentar version, generar changelog, generar tag, commit y push |
-| `doc` | Genera archivos para documentación del proyecto con MkDocs (`mkdocs.yml`, dependencias y extensiones) |
 | `import` | Copia un módulo reutilizable al proyecto actual (`timer`, `logger`, `api`...) |
 | `format` | Llama a ruff para formatear código de Python de todo el repositorio |
 | `help` | Muestra ayuda |

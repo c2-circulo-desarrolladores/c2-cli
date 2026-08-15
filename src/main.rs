@@ -52,7 +52,7 @@ enum Commands {
         show: bool,
     },
 
-    /// Generates project documentation using MkDocs (mkdocs.yml, templates, etc.)
+    /// Hi
     Doc {
         /// GitHub owner/org used to fill '<OWNER>' in cliff.toml (optional)
         #[arg(long)]
