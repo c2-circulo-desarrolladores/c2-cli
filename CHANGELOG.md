@@ -1,3 +1,21 @@
+## [0.12.0] - 2026-08-15
+
+### 🚀 Features
+
+- **(doc)** Adds new command 'doc' to generate mkdocs config dynamically ([#63](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/63)) - ([624a195](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/624a1950525b6a1bfae9bd47c33bb19467cb7634))
+- **(doc)** Adds new command 'doc' to generate mkdocs config dynamically ([#63](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/63)) - ([091a122](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/091a12282360cb191ab2a8fc774a9a23a4d3011f))
+
+### 📚 Documentation
+
+- Adds documentation for doc command - ([349204e](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/349204e23b91797c5ab5f838602c1a93549ebfc1))
+- Adds documentation for doc command - ([9b06e04](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/9b06e04bdd62e30dfdf8149a43aa802cd8b74c5d))
+
+### ⚙️ Miscellaneous Tasks
+
+- **(init)** Removes spaces in keywords in pyproject.toml - ([f477b0a](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/f477b0abf546ea4a1536bd6156b9c28f08784b4c))
+- **(init)** Removes spaces in keywords in pyproject.toml - ([05f3cff](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/05f3cff4fc3a5845a9656610c2359f90f1357452))
+- Updates Cargo.toml outdated version - ([292f022](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/292f022c22f327ab7ce40712d165970b495836e1))
+
 ## [0.10.2] - 2026-07-21
 
 ### 🚜 Refactor
