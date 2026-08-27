@@ -34,6 +34,9 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 packages = ["src/<PACKAGE>"]
 
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
 [tool.bumpversion]
 current_version = "0.1.0"
 parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
@@ -64,5 +67,3 @@ replace = '__version__ = "{new_version}"'
 [tool.ruff.lint]
 select = ["F", "I", "E"]
 ignore = ["E501"]
-
-
