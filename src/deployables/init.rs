@@ -76,7 +76,7 @@ impl Deployable for Init {
         self.import_files()?;
         self.replace_in_pyproject()?;
         self.replace_in_cliff()?;
-        self.cmd().init()?;
+        self.cmd().execute("uv", &["sync"])?;
         self.create_embedded_folders()?;
         println!("✓ Initialized project with .gitignore, cliff.toml, justfile and .github/");
         Ok(())
