@@ -4,6 +4,7 @@ pub mod format;
 pub mod init;
 pub mod initr;
 pub mod logger;
+// pub mod quarto;
 // pub mod polars;
 pub mod doc;
 pub mod release;
