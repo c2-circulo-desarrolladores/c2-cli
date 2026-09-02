@@ -41,14 +41,6 @@ impl Commander {
     // -------------------------------------------------------------------------
     // Recipes
     // -------------------------------------------------------------------------
-
-    pub fn init(&self) -> io::Result<()> {
-        self.execute("uv", &["sync"])?;
-        self.execute("uv", &["run", "pre-commit", "install"])?;
-
-        Ok(())
-    }
-
     pub fn init_r(&self) -> io::Result<()> {
         self.execute("git", &["init"])?;
         self.execute("rv", &["init"])?;
