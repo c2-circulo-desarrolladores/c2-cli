@@ -1,3 +1,15 @@
+## [0.13.0] - 2026-09-02
+
+### 🚀 Features
+
+- **(init)** Adds testpath option for pytest in pyproject.toml - ([7d4362b](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/7d4362b083f60765d95a70214767b7be743e2297))
+- **(init)** Removes pre-commit from init command - ([d6293b8](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/d6293b8eb87207bbbf76d47465dccee2e4645587))
+- **(quarto)** Adds draft for quarto init - ([079c487](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/079c48740d7e42e368e804ec7d543bb3fb51beaa))
+
+### 🐛 Bug Fixes
+
+- **(init)** Makes ruff_check ci lighter - ([1717c47](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/1717c4728c5ed3f07e49709b7908f99d6fa85948))
+
 ## [0.12.0] - 2026-08-15
 
 ### 🚀 Features
