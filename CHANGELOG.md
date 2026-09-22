@@ -1,3 +1,15 @@
+## [0.14.0] - 2026-09-22
+
+### 🚀 Features
+
+- **(init)** Adds block to _init_.py to calculate _version_ dynamically ([#72](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/72)) - ([e54d12d](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/e54d12d4401b912d0b18e6d118da4c2c51d16885))
+- **(init)** Removes hatchling block and replaces with uv's own backend ([#69](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/69)) - ([a66f43d](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/a66f43dbd436a388b592cf3274e963139a763f30))
+- **(init)** Include py.typed file - ([e48306f](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/e48306f798e3bcfd35e4f384778c57542c6a312e))
+
+### 🐛 Bug Fixes
+
+- **(format)** Runs format first, check --fix second - ([93c996a](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/93c996a28b0c1b79a7b8dc9219ca0079e119e16b))
+
 ## [0.13.0] - 2026-09-02
 
 ### 🚀 Features
