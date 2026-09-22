@@ -72,6 +72,8 @@ impl Init {
             &self.package_name()
         );
         fs::write(init_py_path, contents)?;
+        let py_typed_file = package_folder.join("py.typed");
+        fs::write(py_typed_file, b"")?;
         Ok(())
     }
 }
