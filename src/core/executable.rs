@@ -44,6 +44,7 @@ impl Commander {
 
     pub fn init(&self) -> io::Result<()> {
         self.execute("uv", &["sync"])?;
+        self.execute("uv", &["run", "pre-commit", "autoupdate"])?;
         self.execute("uv", &["run", "pre-commit", "install"])?;
 
         Ok(())

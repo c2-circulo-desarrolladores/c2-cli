@@ -90,7 +90,7 @@ impl Deployable for Init {
         self.replace_in_cliff()?;
         self.cmd().init()?;
         self.create_embedded_folders()?;
-        println!("✓ Initialized project with .gitignore, cliff.toml, justfile and .github/");
+        println!("✓ Initialized project with .gitignore, cliff.toml, .pre-commit and .github/");
         Ok(())
     }
 }
