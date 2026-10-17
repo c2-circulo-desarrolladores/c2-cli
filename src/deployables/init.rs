@@ -29,8 +29,13 @@ impl Init {
     }
 
     fn replace_in_cliff(&self) -> std::io::Result<()> {
+        let repo_url = self
+            .cmd()
+            .execute_with_output("git", &["remote", "get-url", "origin"])
+            .expect("No se pudo obtener el url del repositorio remoto 'origin'");
+
         let mut cliff_parser = FileParser::from(self.user_wd().join("cliff.toml"))?;
-        let mut new_content = cliff_parser.contents.replace("<REPO>", &self.repo_name());
+        let mut new_content = cliff_parser.contents.replace("<REPO_URL>", &repo_url);
 
         if let Some(owner) = &self.owner {
             new_content = new_content.replace("<OWNER>", owner);
@@ -39,10 +44,7 @@ impl Init {
 
         cliff_parser.replace_content(new_content)?;
 
-        println!(
-            "✓ Replaced '<REPO>' with {} in cliff.toml",
-            &self.repo_name()
-        );
+        println!("✓ Replaced '<REPO_URL>' with {} in cliff.toml", &repo_url);
 
         Ok(())
     }
