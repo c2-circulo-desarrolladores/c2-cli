@@ -1,3 +1,23 @@
+## [0.15.0] - 2026-10-17
+
+### 🚀 Features
+
+- **(init)** Adds .pre-commit autoupdate command - ([bc4fac5](https://github.com/c2-circulo-desarrolladores/c2-cli.git_/commit/bc4fac52e576cdb424fa861f792973bcdcdd7889))
+- **(release)** Uses uv version to get current project version ([#76](https://github.com/c2-circulo-desarrolladores/c2-cli.git_/issues/76)) - ([a0c77a0](https://github.com/c2-circulo-desarrolladores/c2-cli.git_/commit/a0c77a0676a8543a04671201596312a83abf8d96))
+- **(release)** Deletes bump-my-version config from pyproject.toml - ([8f6ea8a](https://github.com/c2-circulo-desarrolladores/c2-cli.git_/commit/8f6ea8a77401e6b7cef4eaac4e58188520df6791))
+- **(init)** Cliff.toml made agnostic and works with Github and Forgejo ([#78](https://github.com/c2-circulo-desarrolladores/c2-cli.git_/issues/78)) - ([2ae7249](https://github.com/c2-circulo-desarrolladores/c2-cli.git_/commit/2ae72495fb25e201850dfe14898abee1144869b9))
+
+### 🐛 Bug Fixes
+
+- (init): removes trailing quotation mark - ([c1c832c](https://github.com/c2-circulo-desarrolladores/c2-cli.git_/commit/c1c832c56a89b14ad289f04fe6fe559336432647))
+- **(init)** Creates embedded folders before uv sync - ([ae7b93f](https://github.com/c2-circulo-desarrolladores/c2-cli.git_/commit/ae7b93faec2a2341149bb700f2a34f5f0e60b09f))
+- **(init)** Fixes error with url creation in cliff.toml - ([777d691](https://github.com/c2-circulo-desarrolladores/c2-cli.git_/commit/777d691b2c3ecb86e40d2a8947410383e4b03107))
+- **(init)** Assumes git-cliff is installed in path and not managed by uv - ([ddf9a24](https://github.com/c2-circulo-desarrolladores/c2-cli.git_/commit/ddf9a24bef88517713f096963b24cbb7925b23dc))
+
+### ⚙️ Miscellaneous Tasks
+
+- Update cliff.toml to make it agnostic - ([82b9d0b](https://github.com/c2-circulo-desarrolladores/c2-cli.git_/commit/82b9d0b32a773c8d9b4913c91a729295acd6fa23))
+
 ## [0.14.0] - 2026-09-22
 
 ### 🚀 Features
