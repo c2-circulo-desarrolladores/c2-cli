@@ -4,15 +4,6 @@ pub struct Commander {
     cwd: PathBuf,
 }
 
-fn parse_next_version(output: &str) -> Option<String> {
-    output.lines().find_map(|line| {
-        let line = line.trim();
-        line.strip_prefix("New version will be '")
-            .and_then(|rest| rest.strip_suffix('\''))
-            .map(|s| s.to_string())
-    })
-}
-
 impl Commander {
     pub fn new(cwd: impl Into<PathBuf>) -> Self {
         Self { cwd: cwd.into() }
@@ -41,6 +32,15 @@ impl Commander {
     // -------------------------------------------------------------------------
     // Recipes
     // -------------------------------------------------------------------------
+
+    pub fn init(&self) -> io::Result<()> {
+        self.execute("uv", &["sync"])?;
+        self.execute("uv", &["run", "pre-commit", "autoupdate"])?;
+        self.execute("uv", &["run", "pre-commit", "install"])?;
+
+        Ok(())
+    }
+
     pub fn init_r(&self) -> io::Result<()> {
         self.execute("git", &["init"])?;
         self.execute("rv", &["init"])?;
@@ -64,27 +64,14 @@ impl Commander {
 
     pub fn release(&self, part: &str) -> io::Result<()> {
         // 1. Previsualizar próxima versión (dry-run, no toca nada)
-        let dry_run_output = self.execute_with_output(
-            "uv",
-            &[
-                "run",
-                "bump-my-version",
-                "bump",
-                "--dry-run",
-                "--verbose",
-                "--allow-dirty",
-                part,
-            ],
-        )?;
-        let next_version = parse_next_version(&dry_run_output)
-            .expect("no se pudo extraer la próxima versión del output de bump-my-version");
+        let next_version = self
+            .execute_with_output("uv", &["version", "--bump", part, "--dry-run", "--short"])
+            .expect("no se pudo extraer la próxima versión del output de uv");
 
         // 2. Generar changelog con esa versión
         self.execute(
-            "uv",
+            "git-cliff",
             &[
-                "run",
-                "git-cliff",
                 "--unreleased",
                 "--tag",
                 &next_version,
