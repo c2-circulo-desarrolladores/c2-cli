@@ -73,20 +73,9 @@ impl Commander {
 
     pub fn release(&self, part: &str) -> io::Result<()> {
         // 1. Previsualizar próxima versión (dry-run, no toca nada)
-        let dry_run_output = self.execute_with_output(
-            "uv",
-            &[
-                "run",
-                "bump-my-version",
-                "bump",
-                "--dry-run",
-                "--verbose",
-                "--allow-dirty",
-                part,
-            ],
-        )?;
-        let next_version = parse_next_version(&dry_run_output)
-            .expect("no se pudo extraer la próxima versión del output de bump-my-version");
+        let next_version = self
+            .execute_with_output("uv", &["version", "--bump", part, "--dry-run", "--short"])
+            .expect("no se pudo extraer la próxima versión del output de uv");
 
         // 2. Generar changelog con esa versión
         self.execute(
