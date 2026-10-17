@@ -88,8 +88,8 @@ impl Deployable for Init {
         self.import_files()?;
         self.replace_in_pyproject()?;
         self.replace_in_cliff()?;
-        self.cmd().init()?;
         self.create_embedded_folders()?;
+        self.cmd().init()?;
         println!("✓ Initialized project with .gitignore, cliff.toml, .pre-commit and .github/");
         Ok(())
     }
