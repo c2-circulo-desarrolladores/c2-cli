@@ -32,7 +32,9 @@ impl Init {
         let repo_url = self
             .cmd()
             .execute_with_output("git", &["remote", "get-url", "origin"])
-            .expect("No se pudo obtener el url del repositorio remoto 'origin'");
+            .expect("No se pudo obtener el url del repositorio remoto 'origin'")
+            .trim_end_matches(".git")
+            .to_string();
 
         let mut cliff_parser = FileParser::from(self.user_wd().join("cliff.toml"))?;
         let mut new_content = cliff_parser.contents.replace("<REPO_URL>", &repo_url);
