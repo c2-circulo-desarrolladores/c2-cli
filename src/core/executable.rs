@@ -4,15 +4,6 @@ pub struct Commander {
     cwd: PathBuf,
 }
 
-fn parse_next_version(output: &str) -> Option<String> {
-    output.lines().find_map(|line| {
-        let line = line.trim();
-        line.strip_prefix("New version will be '")
-            .and_then(|rest| rest.strip_suffix('\''))
-            .map(|s| s.to_string())
-    })
-}
-
 impl Commander {
     pub fn new(cwd: impl Into<PathBuf>) -> Self {
         Self { cwd: cwd.into() }
@@ -79,10 +70,8 @@ impl Commander {
 
         // 2. Generar changelog con esa versión
         self.execute(
-            "uv",
+            "git-cliff",
             &[
-                "run",
-                "git-cliff",
                 "--unreleased",
                 "--tag",
                 &next_version,
