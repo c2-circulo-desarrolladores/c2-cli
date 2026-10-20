@@ -1,3 +1,9 @@
+## [0.15.1] - 2026-10-20
+
+### 🐛 Bug Fixes
+
+- **(changelog)** Fixes broken urls in cliff.toml and regenerates CHANGELOG - ([2ebb809](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/2ebb8091fa8ff252dd3381ffd726328be333ee1f))
+
 ## [0.15.0] - 2026-10-17
 
 ### 🚀 Features
