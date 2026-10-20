@@ -2,7 +2,7 @@
 # https://git-cliff.org/docs/configuration
 #
 # Plantilla agnóstica de plataforma (GitHub, Forgejo, Gitea, GitLab...).
-# El CLI debe reemplazar el placeholder https://github.com/c2-circulo-desarrolladores/c2-cli.git_ al generar este archivo
+# El CLI debe reemplazar el placeholder https://github.com/c2-circulo-desarrolladores/c2-cli al generar este archivo
 # (ej. https://github.com/owner/repo o https://git.midominio.org/owner/repo),
 # sin barra final. Se obtiene de `git remote get-url origin` normalizado.
 # No se usa [remote.*], así que git-cliff no consulta ninguna API externa.
@@ -22,7 +22,7 @@ body = """
         - {% if commit.scope %}**({{ commit.scope }})** {% endif %}\
             {% if commit.breaking %}[**breaking**] {% endif %}\
             {{ commit.message | upper_first }} - \
-            ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/c2-circulo-desarrolladores/c2-cli.git_/commit/{{ commit.id }}))\
+            ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/{{ commit.id }}))\
     {% endfor %}
 {% endfor %}
 
@@ -53,7 +53,7 @@ split_commits = false
 commit_preprocessors = [
     # Replace issue numbers with absolute links. Works the same on GitHub,
     # Forgejo and Gitea (/issues/N). Keeps only the #number part.
-    { pattern = '\(([^#\)]*)#([0-9]+)\)', replace = "([#${2}](https://github.com/c2-circulo-desarrolladores/c2-cli.git_/issues/${2}))" },
+    { pattern = '\(([^#\)]*)#([0-9]+)\)', replace = "([#${2}](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/${2}))" },
 ]
 # Prevent commits that are breaking from being excluded by commit parsers.
 protect_breaking_commits = false
