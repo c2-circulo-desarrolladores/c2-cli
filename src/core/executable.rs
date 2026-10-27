@@ -24,6 +24,17 @@ impl Commander {
         Ok(())
     }
 
+    pub fn check_availability(&self, program: &str, args: &[&str]) -> Option<String> {
+        let out = Command::new(&program).args(args).output().is_err();
+        match out {
+            true => {
+                println!("{} not found", &program );
+                return Some(program.to_string())
+            },
+            false => return None,
+        }
+    }
+
     pub fn execute_with_output(&self, program: &str, args: &[&str]) -> io::Result<String> {
         let out = Command::new(&program).args(args).output()?;
         Ok(String::from_utf8_lossy(&out.stdout).trim().to_string())
