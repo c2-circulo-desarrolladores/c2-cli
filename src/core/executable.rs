@@ -62,7 +62,7 @@ impl Commander {
         Ok(())
     }
 
-    pub fn release(&self, part: &str, user_wd: &PathBuf) -> io::Result<()> {
+    pub fn release(&self, part: &str, prerelease: Option<&str>, user_wd: &PathBuf) -> io::Result<()> {
         // 1. Previsualizar próxima versión (dry-run, no toca nada)
         let next_version = self
             .execute_with_output("uv", &["version", "--bump", part, "--dry-run", "--short"])
@@ -89,7 +89,10 @@ impl Commander {
             &["commit", "-m", "chore(changelog): update changelog"],
         )?;
 
-        self.execute("uv", &["run", "bump-my-version", "bump", part])?;
+        match prerelease {
+            Some(prerelease) => self.execute("uv", &["run", "cz", "bump", part, "--prerelease", prerelease])?,
+            None => self.execute("uv", &["run", "cz", "bump", part])?
+        }
         self.execute("git", &["push", "origin", "main"])?;
         self.execute("git", &["push", "origin", "--tags"])?;
         Ok(())

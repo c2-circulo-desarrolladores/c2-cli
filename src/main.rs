@@ -1,6 +1,6 @@
 use c2_cli::core::Config;
 use c2_cli::core::Deployable;
-use c2_cli::deployables::{Api, Doc, FixInits, Format, Init, Logger, Release, Timer, Version};
+use c2_cli::deployables::{Api, Doc, FixInits, Format, Init, Logger, Release, Timer, Version, Prerelease};
 
 use clap::{Parser, Subcommand, ValueEnum};
 
@@ -39,6 +39,8 @@ enum Commands {
     Release {
         #[arg(value_enum, default_value = "patch")]
         part: Version,
+        #[arg(value_enum)]
+        prerelease: Option<Prerelease>,
     },
 
     /// Set persistent CLI configuration (e.g. default owner)
@@ -94,8 +96,8 @@ fn main() -> anyhow::Result<()> {
             Format {}.deploy()?;
         }
 
-        Commands::Release { part } => {
-            Release { part }.deploy()?;
+        Commands::Release { part, prerelease } => {
+            Release { part, prerelease }.deploy()?;
         }
 
         Commands::Doc { owner } => {
