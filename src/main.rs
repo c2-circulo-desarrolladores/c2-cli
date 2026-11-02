@@ -1,6 +1,6 @@
 use c2_cli::core::Config;
 use c2_cli::core::Deployable;
-use c2_cli::deployables::{Api, Doc, FixInits, Format, Init, Logger, Release, Timer, Version, Prerelease};
+use c2_cli::deployables::{Api, Doc, FixInits, Format, Init, Logger, Release, Timer, Version, Setup, Prerelease};
 
 use clap::{Parser, Subcommand, ValueEnum};
 
@@ -23,6 +23,9 @@ enum Commands {
         #[arg(long)]
         owner: Option<String>,
     },
+
+    /// Verifies user has all required tools installed (uv, git-cliff)
+    Setup {},
 
     /// Regenerates '__all__' variable inside '__init__.py' files
     #[command(name = "fix-inits")]
@@ -81,6 +84,11 @@ fn main() -> anyhow::Result<()> {
             };
             Init { owner }.deploy()?;
         }
+
+        Commands::Setup { } => {
+            Setup {}.deploy()?
+        },
+
 
         Commands::Import { target } => match target {
             ImportTarget::Timer => Timer {}.deploy()?,
