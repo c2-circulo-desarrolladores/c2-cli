@@ -19,7 +19,7 @@ impl FixInits {
                 .split(",")
                 .map(|x| x.trim().to_string())
                 .collect();
-            modules.extend(modules_list.into_iter());
+            modules.extend(modules_list);
         } else {
             let module_str = line.split(" ").last().unwrap().to_string();
             modules.push(module_str);
@@ -52,8 +52,7 @@ impl FixInits {
             let old_all = file_parser
                 .contents
                 .lines()
-                .filter(|x| x.starts_with("__all__"))
-                .next()
+                .find(|x| x.starts_with("__all__"))
                 .unwrap();
             let new_content = file_parser.contents.replace(old_all, all_block);
             file_parser.replace_content(new_content)?;
@@ -74,7 +73,6 @@ impl Deployable for FixInits {
             .filter_map(|x| x.ok())
             .filter(|x| x.path().is_file())
             .filter(|x| x.file_name() == "__init__.py")
-            .into_iter()
             .collect();
         for path in init_paths {
             let file_parser = FileParser::from(PathBuf::from(path.path()))?;

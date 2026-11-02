@@ -19,5 +19,5 @@ pub use logger::Logger;
 pub use setup::Setup;
 // pub use polars::Polars;
 pub use doc::Doc;
-pub use release::{Release, Version, Prerelease};
+pub use release::{Prerelease, Release, Version};
 pub use timer::Timer;

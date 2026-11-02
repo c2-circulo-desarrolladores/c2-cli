@@ -6,16 +6,15 @@ pub struct InitR {
 }
 impl InitR {
     fn dir_name(&self) -> String {
-        return self
-            .user_wd()
+        self.user_wd()
             .file_name()
             .unwrap()
             .to_string_lossy()
-            .to_string();
+            .to_string()
     }
 
     fn package_name(&self) -> String {
-        return self.dir_name().replace("-", "_");
+        self.dir_name().replace("-", "_")
     }
 
     fn write_to_description(&self) -> std::io::Result<()> {
@@ -39,9 +38,8 @@ packages = ["src/{package_name}"]
 select = ["F", "I", "E"]
 ignore = ["E501"]
 "#;
-        pyproject_parser.append_to_file(&ruff_block)?;
+        pyproject_parser.append_to_file(ruff_block)?;
         println!("✓ Written 'ruff' block to pyproject.toml");
-
 
         Ok(())
     }
@@ -86,7 +84,7 @@ impl Deployable for InitR {
         self.write_to_description()?;
         self.write_to_cliff()?;
         self.cmd().execute("mkdir", &[&folders])?;
-        self.cmd().execute("mkdir", &[&"tests"])?;
+        self.cmd().execute("mkdir", &["tests"])?;
         println!("✓ Initialized project with");
         Ok(())
     }

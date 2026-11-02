@@ -1,6 +1,8 @@
 use c2_cli::core::Config;
 use c2_cli::core::Deployable;
-use c2_cli::deployables::{Api, Doc, FixInits, Format, Init, Logger, Release, Timer, Version, Setup, Prerelease};
+use c2_cli::deployables::{
+    Api, Doc, FixInits, Format, Init, Logger, Prerelease, Release, Setup, Timer, Version,
+};
 
 use clap::{Parser, Subcommand, ValueEnum};
 
@@ -85,10 +87,7 @@ fn main() -> anyhow::Result<()> {
             Init { owner }.deploy()?;
         }
 
-        Commands::Setup { } => {
-            Setup {}.deploy()?
-        },
-
+        Commands::Setup {} => Setup {}.deploy()?,
 
         Commands::Import { target } => match target {
             ImportTarget::Timer => Timer {}.deploy()?,

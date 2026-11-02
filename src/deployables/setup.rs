@@ -8,12 +8,9 @@ impl Deployable for Setup {
     }
 
     fn deploy(&self) -> std::io::Result<()> {
-        
         Ok(())
     }
 }
-
-
 
 // uv tool install bump-my-version
 // winget install git-cliff

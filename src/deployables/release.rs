@@ -37,7 +37,7 @@ impl Prerelease {
 
 pub struct Release {
     pub part: Version,
-    pub prerelease: Option<Prerelease>
+    pub prerelease: Option<Prerelease>,
 }
 
 impl Deployable for Release {
@@ -47,7 +47,8 @@ impl Deployable for Release {
 
     fn deploy(&self) -> std::io::Result<()> {
         let prerelease_parsed = self.prerelease.map(|p| p.as_str());
-        self.cmd().release(&self.part.as_str(), prerelease_parsed, &self.user_wd())?;
+        self.cmd()
+            .release(self.part.as_str(), prerelease_parsed, &self.user_wd())?;
         Ok(())
     }
 }

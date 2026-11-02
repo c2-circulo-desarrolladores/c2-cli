@@ -17,8 +17,7 @@ impl FileParser {
     }
 
     pub fn search_for_line(&self, search_for: &str) -> bool {
-        let found = self.contents.lines().any(|x| x.trim().contains(search_for));
-        found
+        self.contents.lines().any(|x| x.trim().contains(search_for))
     }
 
     pub fn get_lines(&self, search_for: &str) -> Vec<&str> {
