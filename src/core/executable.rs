@@ -62,13 +62,17 @@ impl Commander {
         Ok(())
     }
 
-    pub fn release(&self, part: &str) -> io::Result<()> {
+    pub fn release(&self, part: &str, user_wd: &PathBuf) -> io::Result<()> {
         // 1. Previsualizar próxima versión (dry-run, no toca nada)
         let next_version = self
             .execute_with_output("uv", &["version", "--bump", part, "--dry-run", "--short"])
-            .expect("no se pudo extraer la próxima versión del output de uv");
+            .expect("No se pudo extraer la próxima versión del output de uv");
 
         // 2. Generar changelog con esa versión
+        let changelog_path = user_wd.join("CHANGELOG.md");
+        if !changelog_path.exists() {
+            std::fs::write(changelog_path, b"").unwrap();
+        }
         self.execute(
             "git-cliff",
             &[

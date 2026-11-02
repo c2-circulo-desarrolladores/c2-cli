@@ -28,7 +28,7 @@ impl Deployable for Release {
     }
 
     fn deploy(&self) -> std::io::Result<()> {
-        self.cmd().release(&self.part.as_str())?;
+        self.cmd().release(&self.part.as_str(), &self.user_wd())?;
         Ok(())
     }
 }
