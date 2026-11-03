@@ -28,7 +28,7 @@ impl Commander {
         let out = Command::new(program).args(args).output().is_err();
         match out {
             true => {
-                println!("{} not found", &program);
+                println!("{} not found", program);
                 Some(program.to_string())
             }
             false => None,

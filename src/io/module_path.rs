@@ -27,5 +27,5 @@ pub fn add_module_path(mut file_data: ModuleData) {
     };
 
     fs::write(&file_data.path, &file_data.contents)
-        .unwrap_or_else(|e| panic!("Couldn't write to file {:?}: {}", &file_data.path, e));
+        .unwrap_or_else(|e| panic!("Couldn't write to file {:?}: {}", file_data.path, e));
 }

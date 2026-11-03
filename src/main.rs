@@ -12,7 +12,7 @@ use clap::{Parser, Subcommand, ValueEnum};
     about = "CLI tool to initialize open source projects and importing reusable modules (Python-focused)"
 )]
 #[command(version)]
-struct CLI {
+struct Cli {
     #[command(subcommand)]
     command: Commands,
 }
@@ -75,7 +75,7 @@ enum ImportTarget {
 }
 
 fn main() -> anyhow::Result<()> {
-    let cli = CLI::parse();
+    let cli = Cli::parse();
 
     match cli.command {
         Commands::Init { owner } => {

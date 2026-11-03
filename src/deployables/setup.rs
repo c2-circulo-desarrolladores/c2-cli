@@ -7,11 +7,11 @@ impl Setup {
         let uv_install_msg = "{} no instalado. Corre: \n- uv tool install {}";
         let attempt = self
             .cmd()
-            .execute_with_output("uv", &["run", &program, "--version"]);
+            .execute_with_output("uv", &["run", program, "--version"]);
         if attempt.is_err() {
-            return Some(uv_install_msg.replace("{}", program));
+            Some(uv_install_msg.replace("{}", program))
         } else {
-            return None;
+            None
         }
     }
 }
@@ -32,12 +32,12 @@ impl Deployable for Setup {
         missing_programs.push(self.attempt_program_with_uv("commitizen"));
         missing_programs.retain(|x| !x.is_none());
         let missing_programs: Vec<String> = missing_programs.into_iter().flatten().collect();
-        if missing_programs.len() == 0 {
-            println!("{}", "All programs installed".to_string());
-            return Ok(());
+        if missing_programs.is_empty() {
+            println!("All programs installed");
+            Ok(())
         } else {
             println!("{}", missing_programs.join("\n"));
-            return Ok(());
+            Ok(())
         }
     }
 }

@@ -16,7 +16,7 @@ impl Doc {
         mkdocs_parser.replace_content(new_content)?;
         println!(
             "✓ Replaced '<REPO>' with {} in mkdocs.yml",
-            &self.repo_name()
+            self.repo_name()
         );
         Ok(())
     }

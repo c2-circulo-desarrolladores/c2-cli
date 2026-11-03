@@ -59,7 +59,7 @@ ignore = ["E501"]
         println!(
             "✓ Replaced '<REPO>' {} in cliff.toml with {}",
             placeholder,
-            &self.dir_name()
+            self.dir_name()
         );
 
         Ok(())
