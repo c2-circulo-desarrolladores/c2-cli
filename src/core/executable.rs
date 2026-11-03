@@ -13,7 +13,7 @@ impl Commander {
         let full_command = format!("{} {}", program, args.join(" "));
         println!("\x1b[32m====> Running:\x1b[0m {}", full_command);
 
-        let status = Command::new(&program)
+        let status = Command::new(program)
             .current_dir(&self.cwd)
             .args(args)
             .status()?;
@@ -24,8 +24,19 @@ impl Commander {
         Ok(())
     }
 
+    pub fn check_availability(&self, program: &str, args: &[&str]) -> Option<String> {
+        let out = Command::new(program).args(args).output().is_err();
+        match out {
+            true => {
+                println!("{} not found", program);
+                Some(program.to_string())
+            }
+            false => None,
+        }
+    }
+
     pub fn execute_with_output(&self, program: &str, args: &[&str]) -> io::Result<String> {
-        let out = Command::new(&program).args(args).output()?;
+        let out = Command::new(program).args(args).output()?;
         Ok(String::from_utf8_lossy(&out.stdout).trim().to_string())
     }
 
@@ -62,13 +73,22 @@ impl Commander {
         Ok(())
     }
 
-    pub fn release(&self, part: &str) -> io::Result<()> {
+    pub fn release(
+        &self,
+        part: &str,
+        prerelease: Option<&str>,
+        user_wd: &PathBuf,
+    ) -> io::Result<()> {
         // 1. Previsualizar próxima versión (dry-run, no toca nada)
         let next_version = self
             .execute_with_output("uv", &["version", "--bump", part, "--dry-run", "--short"])
-            .expect("no se pudo extraer la próxima versión del output de uv");
+            .expect("No se pudo extraer la próxima versión del output de uv");
 
         // 2. Generar changelog con esa versión
+        let changelog_path = user_wd.join("CHANGELOG.md");
+        if !changelog_path.exists() {
+            std::fs::write(changelog_path, b"").unwrap();
+        }
         self.execute(
             "git-cliff",
             &[
@@ -85,7 +105,13 @@ impl Commander {
             &["commit", "-m", "chore(changelog): update changelog"],
         )?;
 
-        self.execute("uv", &["run", "bump-my-version", "bump", part])?;
+        match prerelease {
+            Some(prerelease) => self.execute(
+                "uv",
+                &["run", "cz", "bump", part, "--prerelease", prerelease],
+            )?,
+            None => self.execute("uv", &["run", "cz", "bump", part])?,
+        }
         self.execute("git", &["push", "origin", "main"])?;
         self.execute("git", &["push", "origin", "--tags"])?;
         Ok(())

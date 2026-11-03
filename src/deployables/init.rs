@@ -22,7 +22,7 @@ impl Init {
         pyproject_parser.replace_content(new_content)?;
         println!(
             "✓ Replace '<REPO>' with {} in pyproject.toml",
-            &self.repo_name()
+            self.repo_name()
         );
 
         Ok(())
@@ -46,7 +46,7 @@ impl Init {
 
         cliff_parser.replace_content(new_content)?;
 
-        println!("✓ Replaced '<REPO_URL>' with {} in cliff.toml", &repo_url);
+        println!("✓ Replaced '<REPO_URL>' with {} in cliff.toml", repo_url);
 
         Ok(())
     }
@@ -73,7 +73,7 @@ impl Init {
         except PackageNotFoundError:
             __version__ = "unknown"
         "#,
-            &self.package_name()
+            self.package_name()
         );
         fs::write(init_py_path, contents)?;
         let py_typed_file = package_folder.join("py.typed");

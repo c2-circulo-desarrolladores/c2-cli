@@ -9,11 +9,11 @@ pub trait Deployable {
     fn name(&self) -> &str;
 
     fn cmd(&self) -> Commander {
-        return Commander::new(self.user_wd());
+        Commander::new(self.user_wd())
     }
 
     fn user_wd(&self) -> PathBuf {
-        return std::env::current_dir().unwrap();
+        std::env::current_dir().unwrap()
     }
 
     fn folder(&self) -> &'static Dir<'static> {
@@ -21,16 +21,15 @@ pub trait Deployable {
     }
 
     fn repo_name(&self) -> String {
-        return self
-            .user_wd()
+        self.user_wd()
             .file_name()
             .unwrap()
             .to_string_lossy()
-            .to_string();
+            .to_string()
     }
 
     fn package_name(&self) -> String {
-        return self.repo_name().replace("-", "_");
+        self.repo_name().replace("-", "_")
     }
 
     fn import_files(&self) -> std::io::Result<()> {

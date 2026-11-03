@@ -22,12 +22,12 @@ impl Config {
         let config_path = Self::config_path()?;
 
         std::fs::create_dir_all(config_path.parent().unwrap())
-            .with_context(|| format!("failed to create {:?}", &config_path.parent()))?;
+            .with_context(|| format!("failed to create {:?}", config_path.parent()))?;
 
         let contents = toml::to_string_pretty(&self).context("failed to serialize config")?;
 
         std::fs::write(&config_path, contents)
-            .with_context(|| format!("failed to write {:?}", &config_path))?;
+            .with_context(|| format!("failed to write {:?}", config_path))?;
 
         Ok(())
     }

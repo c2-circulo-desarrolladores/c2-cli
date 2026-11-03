@@ -1,6 +1,8 @@
 use c2_cli::core::Config;
 use c2_cli::core::Deployable;
-use c2_cli::deployables::{Api, Doc, FixInits, Format, Init, Logger, Release, Timer, Version};
+use c2_cli::deployables::{
+    Api, Doc, FixInits, Format, Init, Logger, Prerelease, Release, Setup, Timer, Version,
+};
 
 use clap::{Parser, Subcommand, ValueEnum};
 
@@ -10,7 +12,7 @@ use clap::{Parser, Subcommand, ValueEnum};
     about = "CLI tool to initialize open source projects and importing reusable modules (Python-focused)"
 )]
 #[command(version)]
-struct CLI {
+struct Cli {
     #[command(subcommand)]
     command: Commands,
 }
@@ -23,6 +25,9 @@ enum Commands {
         #[arg(long)]
         owner: Option<String>,
     },
+
+    /// Verifies user has all required tools installed (uv, git-cliff)
+    Setup {},
 
     /// Regenerates '__all__' variable inside '__init__.py' files
     #[command(name = "fix-inits")]
@@ -39,6 +44,8 @@ enum Commands {
     Release {
         #[arg(value_enum, default_value = "patch")]
         part: Version,
+        #[arg(value_enum)]
+        prerelease: Option<Prerelease>,
     },
 
     /// Set persistent CLI configuration (e.g. default owner)
@@ -68,7 +75,7 @@ enum ImportTarget {
 }
 
 fn main() -> anyhow::Result<()> {
-    let cli = CLI::parse();
+    let cli = Cli::parse();
 
     match cli.command {
         Commands::Init { owner } => {
@@ -79,6 +86,8 @@ fn main() -> anyhow::Result<()> {
             };
             Init { owner }.deploy()?;
         }
+
+        Commands::Setup {} => Setup {}.deploy()?,
 
         Commands::Import { target } => match target {
             ImportTarget::Timer => Timer {}.deploy()?,
@@ -94,8 +103,8 @@ fn main() -> anyhow::Result<()> {
             Format {}.deploy()?;
         }
 
-        Commands::Release { part } => {
-            Release { part }.deploy()?;
+        Commands::Release { part, prerelease } => {
+            Release { part, prerelease }.deploy()?;
         }
 
         Commands::Doc { owner } => {

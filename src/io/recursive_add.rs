@@ -16,8 +16,8 @@ pub fn recursive_add(root_dir: &Path, extension_filter: Option<&str>) {
                 None => true,
             };
             if matches {
-                    let contents = read_file(&path);
-                    add_module_path(contents);
+                let contents = read_file(&path);
+                add_module_path(contents);
             }
         }
     }
