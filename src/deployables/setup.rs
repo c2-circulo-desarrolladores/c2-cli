@@ -33,7 +33,7 @@ impl Deployable for Setup {
         missing_programs.retain(|x| !x.is_none());
         let missing_programs: Vec<String> = missing_programs.into_iter().flatten().collect();
         if missing_programs.is_empty() {
-            println!("All programs installed");
+            println!("\x1b[32m✓ All programs installed\x1b[0m");
             Ok(())
         } else {
             println!("{}", missing_programs.join("\n"));
