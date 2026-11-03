@@ -2,13 +2,43 @@ use crate::core::Deployable;
 
 pub struct Setup {}
 
+impl Setup {
+    fn attempt_program_with_uv(&self, program: &str) -> Option<String> {
+        let uv_install_msg = "{} no instalado. Corre: \n- uv tool install {}";
+        let attempt = self
+            .cmd()
+            .execute_with_output("uv", &["run", &program, "--version"]);
+        if attempt.is_err() {
+            return Some(uv_install_msg.replace("{}", program));
+        } else {
+            return None;
+        }
+    }
+}
 impl Deployable for Setup {
     fn name(&self) -> &str {
         "setup"
     }
 
-    fn deploy(&self) -> std::io::Result<()> {
-        Ok(())
+    fn deploy(&self) -> Result<(), std::io::Error> {
+        let mut missing_programs: Vec<Option<String>> = Vec::new();
+        let uv_attempt = self.cmd().execute_with_output("uv", &["--version"]);
+        if uv_attempt.is_err() {
+            missing_programs.push(Some("uv no instalado".to_string()));
+        } else {
+            missing_programs.push(None);
+        }
+        missing_programs.push(self.attempt_program_with_uv("git-cliff"));
+        missing_programs.push(self.attempt_program_with_uv("commitizen"));
+        missing_programs.retain(|x| !x.is_none());
+        let missing_programs: Vec<String> = missing_programs.into_iter().flatten().collect();
+        if missing_programs.len() == 0 {
+            println!("{}", "All programs installed".to_string());
+            return Ok(());
+        } else {
+            println!("{}", missing_programs.join("\n"));
+            return Ok(());
+        }
     }
 }
 
