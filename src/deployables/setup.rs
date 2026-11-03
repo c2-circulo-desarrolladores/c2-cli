@@ -28,6 +28,7 @@ impl Deployable for Setup {
         } else {
             missing_programs.push(None);
         }
+        missing_programs.push(self.attempt_program_with_uv("ruff"));
         missing_programs.push(self.attempt_program_with_uv("git-cliff"));
         missing_programs.push(self.attempt_program_with_uv("commitizen"));
         missing_programs.retain(|x| !x.is_none());
