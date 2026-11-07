@@ -54,6 +54,7 @@ name = "cz_conventional_commits"
 tag_format = "v$version"
 version_scheme = "pep440"
 version_provider = "uv"
+annotated_tag = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
