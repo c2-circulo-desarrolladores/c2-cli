@@ -28,9 +28,11 @@ impl Deployable for Setup {
         } else {
             missing_programs.push(None);
         }
+        missing_programs.push(self.attempt_program_with_uv("ruff"));
         missing_programs.push(self.attempt_program_with_uv("git-cliff"));
         missing_programs.push(self.attempt_program_with_uv("commitizen"));
         missing_programs.retain(|x| !x.is_none());
+        
         let missing_programs: Vec<String> = missing_programs.into_iter().flatten().collect();
         if missing_programs.is_empty() {
             println!("\x1b[32m✓ All programs installed\x1b[0m");

@@ -11,9 +11,9 @@ pub enum Version {
 impl Version {
     pub fn as_str(&self) -> &'static str {
         match self {
-            Version::Patch => "PATCH",
-            Version::Minor => "MINOR",
-            Version::Major => "MAJOR",
+            Version::Patch => "patch",
+            Version::Minor => "minor",
+            Version::Major => "major",
         }
     }
 }

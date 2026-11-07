@@ -37,7 +37,13 @@ impl Commander {
 
     pub fn execute_with_output(&self, program: &str, args: &[&str]) -> io::Result<String> {
         let out = Command::new(program).args(args).output()?;
-        Ok(String::from_utf8_lossy(&out.stdout).trim().to_string())
+        if out.status.success() {
+            Ok(String::from_utf8_lossy(&out.stdout).trim().to_string())
+        } else {
+            Err(io::Error::other(
+                String::from_utf8_lossy(&out.stderr).trim().to_string(),
+            ))
+        }
     }
 
     // -------------------------------------------------------------------------
