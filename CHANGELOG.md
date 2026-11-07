@@ -1,3 +1,33 @@
+## [0.15.2] - 2026-11-07
+
+### 🚀 Features
+
+- **(release)** Creates a CHANGELOG.md if there isn't one ([#61](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/61)) - ([a514332](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/a5143321844a39cef4215f06ab60cd0728ec9bd8))
+- **(release)** Adds option for prerelease ([#75](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/75)) - ([52bd32f](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/52bd32fddeb23d3181b7415eb32dbb8ca7af9776))
+- **(setup)** Initial version of setup command ([#58](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/58)) - ([aa52084](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/aa520841268aa7b8806729bde5493db4766f368f))
+- **(setup)** Implements setup command ([#83](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/83)) - ([09ffcd7](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/09ffcd75218f4ab89c7e65d5d24eb6c0ea88fe4b))
+- Adds azure wrapper folder for future impl - ([9c8870e](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/9c8870e4589a099913d2016916de99c7ae98d045))
+- **(setup)** Verifies ruff is installed ([#85](https://github.com/c2-circulo-desarrolladores/c2-cli/issues/85)) - ([1bf3d22](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/1bf3d220e51afded34d33b510ace800f14150dac))
+
+### 🐛 Bug Fixes
+
+- **(setup)** Execute_with_output returns error properly if command failed - ([ad22814](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/ad228149ac0c71a244c0072a2fab3cbbfd3fa0f2))
+- **(release)** Changes bump message to lowercase - ([790d465](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/790d465d6cfc7a50d36f8782782c01c1c517c95b))
+
+### ⚡ Performance
+
+- Removes unneded borrows and other improvements - ([f44479a](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/f44479a36b8a02faca01790be22a0738223ab5fd))
+
+### 🎨 Styling
+
+- Runs cargo clippy and fmt - ([4e6bb7c](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/4e6bb7c7b1c1cae752f740d553ba2175cc9f002d))
+- **(setup)** Adds green color to output - ([1c7e205](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/1c7e2050e2cfd28eb33fca52043f47a4d379c14d))
+
+### ⚙️ Miscellaneous Tasks
+
+- **(release)** Simplifies changelog getter method - ([14d6c8b](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/14d6c8b8eb828cc873d6d7eb69258cbc9c4b0bf5))
+- Release.toml runs with uv - ([2b57903](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/2b57903a47db33a46d2c8978653b7dfe2446354b))
+
 ## [0.15.1] - 2026-10-20
 
 ### 🐛 Bug Fixes
