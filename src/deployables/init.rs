@@ -51,10 +51,15 @@ dev = ["pre-commit", "pytest", "ruff"]
 
         let tool_blocks = r#"[tool.commitizen]
 name = "cz_conventional_commits"
-tag_format = "v$version"
-version_scheme = "pep440"
 version_provider = "uv"
+version_scheme = "pep440"
+tag_format = "v$version"
 annotated_tag = true
+bump_message = "bump: version $current_version → $new_version"
+major_version_zero = true
+post_bump_hooks = [
+    "git push origin HEAD --follow-tags",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

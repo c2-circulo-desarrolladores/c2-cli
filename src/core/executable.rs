@@ -82,9 +82,19 @@ impl Commander {
         user_wd: &PathBuf,
     ) -> io::Result<()> {
         // 1. Previsualizar próxima versión (dry-run, no toca nada)
+        let increment = part.to_uppercase();
+        let mut preview = vec!["run", "cz", "bump"];
+        let mut shared = vec!["--increment", increment.as_str()];
+        if let Some(pre) = prerelease {
+            shared.extend(["--prerelease", pre]);
+        }
+        preview.extend(&shared);
+        preview.push("--get-next");
+
         let next_version = self
-            .execute_with_output("uv", &["version", "--bump", part, "--dry-run", "--short"])
+            .execute_with_output("uv", &preview)
             .expect("No se pudo extraer la próxima versión del output de uv");
+        let tag = format!("v{next_version}");
 
         // 2. Generar changelog con esa versión
         let changelog_path = user_wd.join("CHANGELOG.md");
@@ -93,13 +103,7 @@ impl Commander {
         }
         self.execute(
             "git-cliff",
-            &[
-                "--unreleased",
-                "--tag",
-                &next_version,
-                "--prepend",
-                "CHANGELOG.md",
-            ],
+            &["--unreleased", "--tag", &tag, "--prepend", "CHANGELOG.md"],
         )?;
         self.execute("git", &["add", "CHANGELOG.md"])?;
         self.execute(
@@ -107,29 +111,12 @@ impl Commander {
             &["commit", "-m", "chore(changelog): update changelog"],
         )?;
 
-        let increment = part.to_uppercase();
+        // 3. Bump real: versión + commit + tag (+ push por el post_bump_hook)
+        let mut bump = vec!["run", "cz", "bump"];
+        bump.extend(&shared);
+        bump.push("--yes");
+        self.execute("uv", &bump)?;
 
-        match prerelease {
-            Some(prerelease) => self.execute(
-                "uv",
-                &[
-                    "run",
-                    "cz",
-                    "bump",
-                    "--increment",
-                    &increment,
-                    "--prerelease",
-                    prerelease,
-                    "--yes",
-                ],
-            )?,
-            None => self.execute(
-                "uv",
-                &["run", "cz", "bump", "--increment", &increment, "--yes"],
-            )?,
-        }
-        self.execute("git", &["push", "origin", "main"])?;
-        self.execute("git", &["push", "origin", "--tags"])?;
         Ok(())
     }
 
