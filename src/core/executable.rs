@@ -50,12 +50,8 @@ impl Commander {
     // Recipes
     // -------------------------------------------------------------------------
 
-    pub fn init(&self) -> io::Result<()> {
-        self.execute("uv", &["sync"])?;
-        self.execute("uv", &["run", "pre-commit", "autoupdate"])?;
-        self.execute("uv", &["run", "pre-commit", "install"])?;
-
-        Ok(())
+    pub fn uv_init(&self, name: &str) -> io::Result<()> {
+        self.execute("uv", &["init", "--lib", "--name", name, "--vcs", "none"])
     }
 
     pub fn init_r(&self) -> io::Result<()> {

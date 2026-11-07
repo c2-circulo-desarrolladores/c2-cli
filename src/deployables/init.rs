@@ -7,23 +7,64 @@ pub struct Init {
     pub owner: Option<String>,
 }
 impl Init {
-    fn replace_in_pyproject(&self) -> std::io::Result<()> {
+    fn add_to_pyproject(&self) -> std::io::Result<()> {
         let mut pyproject_parser = FileParser::from(self.user_wd().join("pyproject.toml"))?;
-        let mut new_content = pyproject_parser
-            .contents
-            .replace("<REPO>", &self.repo_name())
-            .replace("<PACKAGE>", &self.package_name());
 
-        if let Some(owner) = &self.owner {
-            new_content = new_content.replace("<OWNER>", owner);
-            println!("✓ Replaced '<OWNER>' with {} in pyproject.toml", owner)
-        }
+        let owner = self.owner.as_deref().unwrap_or("<OWNER>");
+        let repo = self.repo_name();
 
-        pyproject_parser.replace_content(new_content)?;
-        println!(
-            "✓ Replace '<REPO>' with {} in pyproject.toml",
-            self.repo_name()
+        // Blocks that belong before [build-system]
+        let project_blocks = format!(
+            r#"classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Typing :: Typed",
+
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Natural Language :: Spanish",
+]
+
+[project.urls]
+Repository = "https://github.com/{owner}/{repo}"
+Changelog = "https://github.com/{owner}/{repo}/blob/main/CHANGELOG.md"
+
+[dependency-groups]
+dev = ["pre-commit", "pytest", "ruff"]
+
+"#
         );
+
+        // `uv init` always writes a [build-system] table, but fall back to
+        // appending when a project was created without a build backend.
+        let index = pyproject_parser.contents.find("\n[build-system]").expect(
+            "uv init did not generate a [build-system] block\nPlease update with 'uv self update'",
+        );
+        let (head, tail) = pyproject_parser.contents.split_at(index + 1);
+        let contents = format!("{head}{project_blocks}{tail}");
+
+        let tool_blocks = r#"[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "v$version"
+version_scheme = "pep440"
+version_provider = "uv"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff.lint]
+select = ["F", "I", "E"]
+ignore = ["E501"]
+"#;
+
+        pyproject_parser.replace_content(format!("{}\n\n{}", contents.trim_end(), tool_blocks))?;
+        println!("✓ Added classifiers, urls, dependency-groups and tool config to pyproject.toml");
 
         Ok(())
     }
@@ -68,11 +109,11 @@ impl Init {
         let contents = format!(
             r#"from importlib.metadata import PackageNotFoundError, version
 
-        try:
-            __version__ = version("{}")
-        except PackageNotFoundError:
-            __version__ = "unknown"
-        "#,
+try:
+    __version__ = version("{}")
+except PackageNotFoundError:
+    __version__ = "unknown"
+"#,
             self.package_name()
         );
         fs::write(init_py_path, contents)?;
@@ -89,11 +130,12 @@ impl Deployable for Init {
 
     fn deploy(&self) -> std::io::Result<()> {
         self.cmd().execute("git", &["init"])?;
+        self.cmd().uv_init(&self.repo_name())?;
+        self.add_to_pyproject()?;
         self.import_files()?;
-        self.replace_in_pyproject()?;
         self.replace_in_cliff()?;
         self.create_embedded_folders()?;
-        self.cmd().init()?;
+        self.cmd().execute("uv", &["sync"])?;
         println!("✓ Initialized project with .gitignore, cliff.toml, .pre-commit and .github/");
         Ok(())
     }
