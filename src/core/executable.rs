@@ -111,12 +111,26 @@ impl Commander {
             &["commit", "-m", "chore(changelog): update changelog"],
         )?;
 
+        let increment = part.to_uppercase();
+
         match prerelease {
             Some(prerelease) => self.execute(
                 "uv",
-                &["run", "cz", "bump", part, "--prerelease", prerelease],
+                &[
+                    "run",
+                    "cz",
+                    "bump",
+                    "--increment",
+                    &increment,
+                    "--prerelease",
+                    prerelease,
+                    "--yes",
+                ],
             )?,
-            None => self.execute("uv", &["run", "cz", "bump", part])?,
+            None => self.execute(
+                "uv",
+                &["run", "cz", "bump", "--increment", &increment, "--yes"],
+            )?,
         }
         self.execute("git", &["push", "origin", "main"])?;
         self.execute("git", &["push", "origin", "--tags"])?;
