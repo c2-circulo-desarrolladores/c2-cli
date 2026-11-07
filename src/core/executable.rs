@@ -50,12 +50,8 @@ impl Commander {
     // Recipes
     // -------------------------------------------------------------------------
 
-    pub fn init(&self) -> io::Result<()> {
-        self.execute("uv", &["sync"])?;
-        self.execute("uv", &["run", "pre-commit", "autoupdate"])?;
-        self.execute("uv", &["run", "pre-commit", "install"])?;
-
-        Ok(())
+    pub fn uv_init(&self, name: &str) -> io::Result<()> {
+        self.execute("uv", &["init", "--lib", "--name", name, "--vcs", "none"])
     }
 
     pub fn init_r(&self) -> io::Result<()> {
@@ -111,12 +107,26 @@ impl Commander {
             &["commit", "-m", "chore(changelog): update changelog"],
         )?;
 
+        let increment = part.to_uppercase();
+
         match prerelease {
             Some(prerelease) => self.execute(
                 "uv",
-                &["run", "cz", "bump", part, "--prerelease", prerelease],
+                &[
+                    "run",
+                    "cz",
+                    "bump",
+                    "--increment",
+                    &increment,
+                    "--prerelease",
+                    prerelease,
+                    "--yes",
+                ],
             )?,
-            None => self.execute("uv", &["run", "cz", "bump", part])?,
+            None => self.execute(
+                "uv",
+                &["run", "cz", "bump", "--increment", &increment, "--yes"],
+            )?,
         }
         self.execute("git", &["push", "origin", "main"])?;
         self.execute("git", &["push", "origin", "--tags"])?;
