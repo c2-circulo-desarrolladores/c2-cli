@@ -1,3 +1,13 @@
+## [0.15.3] - 2026-11-07
+
+### 🐛 Bug Fixes
+
+- **(release)** Fixes cz workflow - ([110d86a](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/110d86a3011d713d505351e9f1f3a8466b8c43bd))
+
+### 🚜 Refactor
+
+- **(init)** Pyproject.toml generation is handled by uv and blocks added on top - ([4b5c336](https://github.com/c2-circulo-desarrolladores/c2-cli/commit/4b5c3365c46544beda733858343f5b6d86430b69))
+
 ## [0.15.2] - 2026-11-07
 
 ### 🚀 Features
